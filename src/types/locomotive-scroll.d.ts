@@ -22,8 +22,11 @@ declare module "locomotive-scroll" {
     constructor(options: LocomotiveScrollOptions);
     update(): void;
     destroy(): void;
-    on(event: string, callback: Function): void;
-    off(event: string, callback: Function): void;
-    scrollTo(target: string | HTMLElement | number, options?: any): void;
+    on(event: string, callback: (...args: unknown[]) => void): void;
+    off(event: string, callback: (...args: unknown[]) => void): void;
+    scrollTo(
+      target: string | HTMLElement | number,
+      options?: Record<string, unknown>
+    ): void;
   }
 }

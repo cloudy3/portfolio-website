@@ -1,23 +1,10 @@
+import HeroSection from "./_components/HeroSection";
+
 export default function Home() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section
-        id="hero"
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white"
-      >
-        <div className="container-custom text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            Welcome to My Portfolio
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 animate-slide-up opacity-90">
-            Mont-Fort Inspired Design with Modern Web Technologies
-          </p>
-          <button className="bg-yellow-400 text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-yellow-300 transition-colors animate-slide-up">
-            Explore My Work
-          </button>
-        </div>
-      </section>
+      {/* Hero Section with 3D Background */}
+      <HeroSection />
 
       {/* About Section */}
       <section id="about" className="section-padding bg-white">
@@ -27,9 +14,10 @@ export default function Home() {
           </h2>
           <div className="max-w-4xl mx-auto text-center">
             <p className="text-lg md:text-xl text-gray-700 mb-8">
-              I'm a passionate web developer with a love for creating beautiful,
-              functional, and user-friendly websites. This portfolio showcases
-              my work and demonstrates my skills in modern web development.
+              I&apos;m a passionate web developer with a love for creating
+              beautiful, functional, and user-friendly websites. This portfolio
+              showcases my work and demonstrates my skills in modern web
+              development.
             </p>
             <p className="text-lg md:text-xl text-gray-700">
               Inspired by the elegant design principles of Mont-Fort, I strive
@@ -142,8 +130,8 @@ export default function Home() {
           </h2>
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-xl mb-8 opacity-90">
-              I'm always interested in new opportunities and collaborations.
-              Let's create something amazing together!
+              I&apos;m always interested in new opportunities and
+              collaborations. Let&apos;s create something amazing together!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="bg-yellow-400 text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-yellow-300 transition-colors">

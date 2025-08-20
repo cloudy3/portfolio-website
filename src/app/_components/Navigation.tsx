@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { NAVIGATION_ITEMS, Z_INDEX, DURATIONS } from "@/lib/constants";
+import { NAVIGATION_ITEMS, Z_INDEX } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 interface NavigationProps {

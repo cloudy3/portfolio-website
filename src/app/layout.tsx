@@ -10,11 +10,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio - Mont-Fort Inspired Design",
+  title: "Jing Feng's Portfolio",
   description:
     "A modern portfolio website with Mont-Fort inspired design and smooth animations",
-  keywords: "portfolio, web development, design, Mont-Fort",
-  authors: [{ name: "Portfolio Owner" }],
+  keywords: "portfolio, web development, design",
+  authors: [{ name: "Cheah Jing Feng" }],
   viewport: "width=device-width, initial-scale=1",
 };
 
