@@ -1,4 +1,5 @@
 import HeroSection from "./_components/HeroSection";
+import AboutSection from "./_components/AboutSection";
 
 export default function Home() {
   return (
@@ -7,26 +8,7 @@ export default function Home() {
       <HeroSection />
 
       {/* About Section */}
-      <section id="about" className="section-padding bg-white">
-        <div className="container-custom">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-900">
-            About Me
-          </h2>
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-lg md:text-xl text-gray-700 mb-8">
-              I&apos;m a passionate web developer with a love for creating
-              beautiful, functional, and user-friendly websites. This portfolio
-              showcases my work and demonstrates my skills in modern web
-              development.
-            </p>
-            <p className="text-lg md:text-xl text-gray-700">
-              Inspired by the elegant design principles of Mont-Fort, I strive
-              to create digital experiences that are both visually stunning and
-              highly performant.
-            </p>
-          </div>
-        </div>
-      </section>
+      <AboutSection />
 
       {/* Projects Section */}
       <section id="projects" className="section-padding bg-gray-50">

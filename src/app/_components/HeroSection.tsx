@@ -5,7 +5,8 @@ import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ThreeScene from "./ThreeScene";
-import { ANIMATION_CONFIGS, TIMING } from "@/lib/animations";
+import { ANIMATION_CONFIG } from "@/lib/animations";
+import { DURATIONS } from "@/lib/constants";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -68,8 +69,8 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
       tl.to(titleRef.current, {
         opacity: 1,
         y: 0,
-        duration: TIMING.slow,
-        ease: ANIMATION_CONFIGS.fadeInUp.ease,
+        duration: DURATIONS.slow / 1000, // Convert to seconds
+        ease: ANIMATION_CONFIG.ease,
       })
         // Animate subtitle
         .to(
@@ -77,8 +78,8 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           {
             opacity: 1,
             y: 0,
-            duration: TIMING.normal,
-            ease: ANIMATION_CONFIGS.fadeInUp.ease,
+            duration: DURATIONS.normal / 1000, // Convert to seconds
+            ease: ANIMATION_CONFIG.ease,
           },
           "-=0.3"
         )
@@ -88,8 +89,8 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           {
             opacity: 1,
             y: 0,
-            duration: TIMING.normal,
-            ease: ANIMATION_CONFIGS.fadeInUp.ease,
+            duration: DURATIONS.normal / 1000, // Convert to seconds
+            ease: ANIMATION_CONFIG.ease,
           },
           "-=0.2"
         )
@@ -99,8 +100,8 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           {
             opacity: 1,
             y: 0,
-            duration: TIMING.normal,
-            ease: ANIMATION_CONFIGS.fadeInUp.ease,
+            duration: DURATIONS.normal / 1000, // Convert to seconds
+            ease: ANIMATION_CONFIG.ease,
           },
           "-=0.1"
         )
@@ -110,8 +111,8 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           {
             opacity: 1,
             y: 0,
-            duration: TIMING.fast,
-            ease: ANIMATION_CONFIGS.fadeInUp.ease,
+            duration: DURATIONS.fast / 1000, // Convert to seconds
+            ease: ANIMATION_CONFIG.ease,
           },
           "-=0.1"
         );

@@ -105,6 +105,16 @@ body {
   animation: slideInRight 0.8s ease-out forwards;
 }
 
+/* Skill progress animation */
+.skill-progress-animated {
+  width: 0%;
+  transition: width 1.5s ease-out;
+}
+
+.skill-progress-animated.animate {
+  width: var(--progress-width);
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
