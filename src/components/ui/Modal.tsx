@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/lib/constants";
 
@@ -18,33 +19,38 @@ export const Modal: React.FC<ModalProps> = ({
   size = "md",
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLBodyElement | null>(null);
 
   useEffect(() => {
-    if (isOpen) {
-      // Prevent scrolling on the body and html
-      const originalBodyOverflow = document.body.style.overflow;
-      const originalHtmlOverflow = document.documentElement.style.overflow;
-      const originalBodyPosition = document.body.style.position;
-      const originalBodyTop = document.body.style.top;
-      const originalBodyWidth = document.body.style.width;
+    bodyRef.current = document.body as HTMLBodyElement;
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && bodyRef.current) {
+      // Store original styles
+      const originalOverflow = bodyRef.current.style.overflow;
+      const originalPosition = bodyRef.current.style.position;
+      const originalTop = bodyRef.current.style.top;
+      const originalWidth = bodyRef.current.style.width;
+      const originalHeight = bodyRef.current.style.height;
 
       // Get current scroll position
       const scrollY = window.scrollY;
 
       // Lock the body
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = "100%";
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
+      bodyRef.current.style.overflow = "hidden";
+      bodyRef.current.style.position = "fixed";
+      bodyRef.current.style.top = `-${scrollY}px`;
+      bodyRef.current.style.width = "100%";
+      bodyRef.current.style.height = "100%";
 
       return () => {
         // Restore original styles
-        document.body.style.position = originalBodyPosition;
-        document.body.style.top = originalBodyTop;
-        document.body.style.width = originalBodyWidth;
-        document.body.style.overflow = originalBodyOverflow;
-        document.documentElement.style.overflow = originalHtmlOverflow;
+        bodyRef.current!.style.overflow = originalOverflow;
+        bodyRef.current!.style.position = originalPosition;
+        bodyRef.current!.style.top = originalTop;
+        bodyRef.current!.style.width = originalWidth;
+        bodyRef.current!.style.height = originalHeight;
 
         // Restore scroll position
         window.scrollTo(0, scrollY);
@@ -77,7 +83,7 @@ export const Modal: React.FC<ModalProps> = ({
     xl: "max-w-4xl",
   };
 
-  return (
+  return ReactDOM.createPortal(
     <div
       ref={overlayRef}
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 overflow-hidden"
@@ -96,7 +102,8 @@ export const Modal: React.FC<ModalProps> = ({
       >
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
