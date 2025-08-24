@@ -1,5 +1,6 @@
 import HeroSection from "./_components/HeroSection";
 import AboutSection from "./_components/AboutSection";
+import { ProjectsSection } from "./_components/ProjectsSection";
 
 export default function Home() {
   return (
@@ -11,33 +12,7 @@ export default function Home() {
       <AboutSection />
 
       {/* Projects Section */}
-      <section id="projects" className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-900">
-            My Projects
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((project) => (
-              <div
-                key={project}
-                className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow"
-              >
-                <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg mb-4"></div>
-                <h3 className="text-xl font-semibold mb-2">
-                  Project {project}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  A brief description of this amazing project and the
-                  technologies used to build it.
-                </p>
-                <button className="text-blue-600 hover:text-blue-800 font-medium">
-                  Learn More →
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ProjectsSection />
 
       {/* Skills Section */}
       <section id="skills" className="section-padding bg-white">
