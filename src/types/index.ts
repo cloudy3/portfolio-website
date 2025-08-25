@@ -33,6 +33,27 @@ export interface Skill {
   icon?: string;
 }
 
+export interface Education {
+  id: string;
+  institution: string;
+  degree: string;
+  startDate: Date;
+  endDate: Date;
+  description: string;
+  achievements?: string[];
+  logo?: string;
+}
+
+export interface Certification {
+  id: string;
+  name: string;
+  issuer: string;
+  issueDate: Date;
+  expiryDate?: Date;
+  credentialId: string;
+  logo?: string;
+}
+
 // Additional utility types
 export interface NavigationItem {
   id: string;
