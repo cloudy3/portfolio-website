@@ -3,10 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Skill } from "@/types";
 import { SKILLS_DATA, getSkillsByCategory } from "@/lib/data/skills";
-import {
-  createStaggeredScrollAnimation,
-  animateProgressBar,
-} from "@/lib/animations";
 
 interface SkillCardProps {
   skill: Skill;
@@ -23,14 +19,6 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
       ([entry]) => {
         if (entry.isIntersecting && !isVisible) {
           setIsVisible(true);
-
-          // Animate progress bar when visible
-          if (progressRef.current) {
-            const targetWidth = `${(skill.level / 5) * 100}%`;
-            animateProgressBar(progressRef.current, targetWidth, {
-              delay: index * 0.1,
-            });
-          }
         }
       },
       { threshold: 0.3 }
@@ -41,7 +29,7 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
     }
 
     return () => observer.disconnect();
-  }, [skill.level, index, isVisible]);
+  }, [isVisible]);
 
   const getLevelText = (level: number) => {
     switch (level) {
@@ -63,7 +51,10 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
   return (
     <div
       ref={cardRef}
-      className="skill-card bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+      className={`skill-card bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
     >
       <div className="flex items-center mb-4">
         <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-2xl mr-4">
@@ -83,8 +74,13 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
             ref={progressRef}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-1000 ease-out"
-            style={{ width: "0%" }}
+            className={`bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-1000 ease-out ${
+              isVisible ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              width: isVisible ? `${(skill.level / 5) * 100}%` : "0%",
+              transitionDelay: `${index * 100 + 200}ms`,
+            }}
           />
         </div>
       </div>
@@ -99,38 +95,23 @@ interface SkillCategoryProps {
 
 const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
   const categoryRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (categoryRef.current) {
-      // Animate category title
-      const titleElement = categoryRef.current.querySelector(".category-title");
-      if (titleElement) {
-        createStaggeredScrollAnimation(
-          [titleElement as HTMLElement],
-          "textReveal",
-          {
-            trigger: categoryRef.current,
-            start: "top 85%",
-            duration: 0.8,
-          }
-        );
-      }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-      // Animate skill cards
-      const skillCards = categoryRef.current.querySelectorAll(".skill-card");
-      if (skillCards.length > 0) {
-        createStaggeredScrollAnimation(
-          Array.from(skillCards) as HTMLElement[],
-          "scaleIn",
-          {
-            trigger: categoryRef.current,
-            start: "top 80%",
-            stagger: 0.1,
-            duration: 0.6,
-          }
-        );
-      }
+    if (categoryRef.current) {
+      observer.observe(categoryRef.current);
     }
+
+    return () => observer.disconnect();
   }, []);
 
   const getCategoryTitle = (category: Skill["category"]) => {
@@ -172,7 +153,11 @@ const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
 
   return (
     <div ref={categoryRef} className="mb-16">
-      <div className="flex items-center mb-8">
+      <div
+        className={`flex items-center mb-8 transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
         <span className="text-3xl mr-3">{getCategoryIcon(category)}</span>
         <h3 className="category-title text-2xl md:text-3xl font-bold text-gray-900">
           {getCategoryTitle(category)}
@@ -193,39 +178,23 @@ const SkillsSection = () => {
   const [activeCategory, setActiveCategory] = useState<
     Skill["category"] | "all"
   >("all");
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   useEffect(() => {
-    if (sectionRef.current) {
-      // Animate section title
-      const titleElement = sectionRef.current.querySelector(".section-title");
-      if (titleElement) {
-        createStaggeredScrollAnimation(
-          [titleElement as HTMLElement],
-          "textReveal",
-          {
-            trigger: sectionRef.current,
-            start: "top 90%",
-            duration: 1,
-          }
-        );
-      }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsHeaderVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-      // Animate section subtitle
-      const subtitleElement =
-        sectionRef.current.querySelector(".section-subtitle");
-      if (subtitleElement) {
-        createStaggeredScrollAnimation(
-          [subtitleElement as HTMLElement],
-          "fadeIn",
-          {
-            trigger: sectionRef.current,
-            start: "top 85%",
-            delay: 0.3,
-            duration: 0.8,
-          }
-        );
-      }
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
+
+    return () => observer.disconnect();
   }, []);
 
   const categories: (Skill["category"] | "all")[] = [
@@ -270,10 +239,22 @@ const SkillsSection = () => {
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="section-title text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+          <h2
+            className={`section-title text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 transition-all duration-700 ${
+              isHeaderVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
             My Skills
           </h2>
-          <p className="section-subtitle text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+          <p
+            className={`section-subtitle text-lg md:text-xl text-gray-600 max-w-3xl mx-auto transition-all duration-700 delay-200 ${
+              isHeaderVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
             A comprehensive overview of my technical expertise and proficiency
             levels across various technologies and tools I use to create
             exceptional digital experiences.

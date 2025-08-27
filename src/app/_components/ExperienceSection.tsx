@@ -10,20 +10,39 @@ import {
   getPastExperiences,
   getTotalExperienceYears,
 } from "@/lib/data/experience";
-import { createStaggeredScrollAnimation } from "@/lib/animations";
 
 interface ExperienceCardProps {
   experience: Experience;
   isExpanded: boolean;
   onToggle: () => void;
+  index?: number;
 }
 
 const ExperienceCard = ({
   experience,
   isExpanded,
   onToggle,
+  index = 0,
 }: ExperienceCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString("en-US", {
@@ -58,7 +77,10 @@ const ExperienceCard = ({
   return (
     <div
       ref={cardRef}
-      className="experience-card relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className={`experience-card relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-700 overflow-hidden ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+      }`}
+      style={{ transitionDelay: `${index * 200}ms` }}
     >
       {/* Timeline connector */}
       <div className="absolute left-6 top-0 w-0.5 h-full bg-gradient-to-b from-blue-500 to-purple-600"></div>
@@ -152,7 +174,32 @@ const ExperienceCard = ({
   );
 };
 
-const EducationCard = ({ education }: { education: Education }) => {
+const EducationCard = ({
+  education,
+  index = 0,
+}: {
+  education: Education;
+  index?: number;
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
   const formatDate = (date: Date) => {
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -161,7 +208,13 @@ const EducationCard = ({ education }: { education: Education }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300">
+    <div
+      ref={cardRef}
+      className={`bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-700 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      }`}
+      style={{ transitionDelay: `${index * 150}ms` }}
+    >
       <div className="flex items-start mb-4">
         <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-lg flex items-center justify-center text-2xl mr-4">
           {education.logo || "🎓"}
@@ -206,9 +259,30 @@ const EducationCard = ({ education }: { education: Education }) => {
 
 const CertificationCard = ({
   certification,
+  index = 0,
 }: {
   certification: Certification;
+  index?: number;
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
   const formatDate = (date: Date) => {
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -225,7 +299,13 @@ const CertificationCard = ({
       90 * 24 * 60 * 60 * 1000; // 90 days
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300">
+    <div
+      ref={cardRef}
+      className={`bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-700 ${
+        isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+      }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start">
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center text-xl mr-3">
@@ -281,56 +361,24 @@ const ExperienceSection = () => {
   const [activeTab, setActiveTab] = useState<
     "experience" | "education" | "certifications"
   >("experience");
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsHeaderVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
     if (sectionRef.current) {
-      // Animate section title
-      const titleElement = sectionRef.current.querySelector(".section-title");
-      if (titleElement) {
-        createStaggeredScrollAnimation(
-          [titleElement as HTMLElement],
-          "textReveal",
-          {
-            trigger: sectionRef.current,
-            start: "top 90%",
-            duration: 1,
-          }
-        );
-      }
-
-      // Animate section subtitle
-      const subtitleElement =
-        sectionRef.current.querySelector(".section-subtitle");
-      if (subtitleElement) {
-        createStaggeredScrollAnimation(
-          [subtitleElement as HTMLElement],
-          "fadeIn",
-          {
-            trigger: sectionRef.current,
-            start: "top 85%",
-            delay: 0.3,
-            duration: 0.8,
-          }
-        );
-      }
-
-      // Animate experience cards
-      const experienceCards =
-        sectionRef.current.querySelectorAll(".experience-card");
-      if (experienceCards.length > 0) {
-        createStaggeredScrollAnimation(
-          Array.from(experienceCards) as HTMLElement[],
-          "slideInLeft",
-          {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            stagger: 0.2,
-            duration: 0.8,
-          }
-        );
-      }
+      observer.observe(sectionRef.current);
     }
-  }, [activeTab]);
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleToggleExpanded = (experienceId: string) => {
     setExpandedExperience(
@@ -351,16 +399,34 @@ const ExperienceSection = () => {
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="section-title text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+          <h2
+            className={`section-title text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 transition-all duration-700 ${
+              isHeaderVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
             Experience & Education
           </h2>
-          <p className="section-subtitle text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p
+            className={`section-subtitle text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8 transition-all duration-700 delay-200 ${
+              isHeaderVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
             My professional journey, educational background, and continuous
             learning through certifications and skill development.
           </p>
 
           {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-8 mb-8">
+          <div
+            className={`flex flex-wrap justify-center gap-8 mb-8 transition-all duration-700 delay-400 ${
+              isHeaderVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            }`}
+          >
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-600 mb-1">
                 {totalYears}+
@@ -423,6 +489,7 @@ const ExperienceSection = () => {
                     experience={currentExp}
                     isExpanded={expandedExperience === currentExp.id}
                     onToggle={() => handleToggleExpanded(currentExp.id)}
+                    index={0}
                   />
                 </div>
               )}
@@ -434,12 +501,13 @@ const ExperienceSection = () => {
                     Previous Experience
                   </h3>
                   <div className="space-y-6">
-                    {pastExps.map((exp) => (
+                    {pastExps.map((exp, index) => (
                       <ExperienceCard
                         key={exp.id}
                         experience={exp}
                         isExpanded={expandedExperience === exp.id}
                         onToggle={() => handleToggleExpanded(exp.id)}
+                        index={index + 1}
                       />
                     ))}
                   </div>
@@ -450,16 +518,20 @@ const ExperienceSection = () => {
 
           {activeTab === "education" && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {EDUCATION_DATA.map((edu) => (
-                <EducationCard key={edu.id} education={edu} />
+              {EDUCATION_DATA.map((edu, index) => (
+                <EducationCard key={edu.id} education={edu} index={index} />
               ))}
             </div>
           )}
 
           {activeTab === "certifications" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {CERTIFICATIONS_DATA.map((cert) => (
-                <CertificationCard key={cert.id} certification={cert} />
+              {CERTIFICATIONS_DATA.map((cert, index) => (
+                <CertificationCard
+                  key={cert.id}
+                  certification={cert}
+                  index={index}
+                />
               ))}
             </div>
           )}
