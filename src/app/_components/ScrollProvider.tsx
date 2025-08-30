@@ -37,6 +37,10 @@ export default function ScrollProvider({ children }: ScrollProviderProps) {
             },
           });
 
+          // Expose Locomotive Scroll instance globally for Navigation component
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (window as any).locomotiveScroll = locomotiveScroll;
+
           // Update locomotive scroll on window resize
           const handleResize = () => {
             if (locomotiveScroll) {

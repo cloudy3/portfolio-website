@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NAVIGATION_ITEMS, Z_INDEX } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -12,12 +12,16 @@ export default function Navigation({ className }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   // Handle scroll events for active section highlighting and navbar styling
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 50);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let locomotiveScroll: any = null;
+
+    const handleScroll = (scrollY?: number) => {
+      const currentScrollY = scrollY || window.scrollY || window.pageYOffset;
+      setIsScrolled(currentScrollY > 50);
 
       // Find active section based on scroll position
       const sections = NAVIGATION_ITEMS.map((item) => item.id);
@@ -27,7 +31,8 @@ export default function Navigation({ className }: NavigationProps) {
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
+          // Adjust the threshold for better detection
+          if (rect.top <= 150 && rect.bottom >= 150) {
             currentSection = sectionId;
           }
         }
@@ -36,8 +41,91 @@ export default function Navigation({ className }: NavigationProps) {
       setActiveSection(currentSection);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Initial call to set correct state
+    handleScroll();
+
+    // Try to hook into Locomotive Scroll instance
+    const initLocomotiveListener = () => {
+      // Check if Locomotive Scroll is available on window
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((window as any).locomotiveScroll) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        locomotiveScroll = (window as any).locomotiveScroll;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        locomotiveScroll.on("scroll", (args: any) => {
+          handleScroll(args.scroll.y);
+        });
+      } else {
+        // Fallback to regular scroll events
+        window.addEventListener("scroll", () => handleScroll(), {
+          passive: true,
+        });
+      }
+    };
+
+    // Try immediately, then with a delay for Locomotive Scroll to initialize
+    initLocomotiveListener();
+    const timeoutId = setTimeout(initLocomotiveListener, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (locomotiveScroll && locomotiveScroll.off) {
+        locomotiveScroll.off("scroll", handleScroll);
+      }
+      window.removeEventListener("scroll", () => handleScroll());
+    };
+  }, []);
+
+  // Intersection Observer for better section detection
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-10% 0px -80% 0px",
+      threshold: 0.1,
+    };
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      // Find the section that's most visible
+      let mostVisibleSection = "";
+      let maxVisibility = 0;
+
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > maxVisibility) {
+          const sectionId = entry.target.id;
+          if (
+            sectionId &&
+            NAVIGATION_ITEMS.some((item) => item.id === sectionId)
+          ) {
+            mostVisibleSection = sectionId;
+            maxVisibility = entry.intersectionRatio;
+          }
+        }
+      });
+
+      if (mostVisibleSection) {
+        setActiveSection(mostVisibleSection);
+      }
+    }, observerOptions);
+
+    // Observe all sections with a delay to ensure they're rendered
+    const observeSections = () => {
+      NAVIGATION_ITEMS.forEach((item) => {
+        const element = document.getElementById(item.id);
+        if (element && observerRef.current) {
+          observerRef.current.observe(element);
+        }
+      });
+    };
+
+    // Delay observation to ensure sections are rendered
+    const timeoutId = setTimeout(observeSections, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
   }, []);
 
   // Handle smooth scroll to section
@@ -46,10 +134,31 @@ export default function Navigation({ className }: NavigationProps) {
     const element = document.getElementById(targetId);
 
     if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      // Force navbar to update immediately
+      setIsScrolled(true);
+      setActiveSection(targetId);
+
+      // Try to use Locomotive Scroll's scrollTo method first
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const locomotiveScroll = (window as any).locomotiveScroll;
+      if (locomotiveScroll && locomotiveScroll.scrollTo) {
+        locomotiveScroll.scrollTo(element, {
+          offset: -80, // Account for fixed navbar
+          duration: 1000,
+          easing: [0.25, 0.0, 0.35, 1.0],
+        });
+      } else {
+        // Fallback to regular scroll
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition =
+          elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
     }
 
     setIsOpen(false);

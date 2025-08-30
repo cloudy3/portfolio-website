@@ -198,14 +198,16 @@ html.has-scroll-dragging {
   overflow: hidden;
 }
 
-.has-scroll-smooth [data-scroll-container] {
-  min-height: 100vh;
+/* Removed min-height rule to prevent extra space below content */
+
+[data-scroll-direction="horizontal"] [data-scroll-container] {
+  /* Only apply height for horizontal scroll */
+  display: inline-block;
+  white-space: nowrap;
 }
 
 [data-scroll-direction="horizontal"] [data-scroll-container] {
   height: 100vh;
-  display: inline-block;
-  white-space: nowrap;
 }
 
 [data-scroll-direction="horizontal"] [data-scroll-section] {
