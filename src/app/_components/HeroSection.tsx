@@ -216,10 +216,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
       {/* Hero Content */}
       <div className="relative z-20 text-center px-4 sm:px-6 md:px-8 lg:px-12 max-w-5xl mx-auto pt-24 sm:pt-28 md:pt-32">
         {/* Main Title */}
-        <h1
-          ref={titleRef}
-          className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
-        >
+        <h1 ref={titleRef} className="text-white mb-4 sm:mb-6 leading-tight">
           <span className="block">Creative</span>
           <span className="block bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
             Developer
@@ -227,17 +224,17 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         </h1>
 
         {/* Subtitle */}
-        <p
+        <h3
           ref={subtitleRef}
-          className="text-lg xs:text-xl sm:text-2xl md:text-3xl text-gray-300 mb-3 sm:mb-4 font-light px-2"
+          className="text-gray-300 mb-3 sm:mb-4 font-light px-2"
         >
           Full-Stack Engineer & UI/UX Enthusiast
-        </p>
+        </h3>
 
         {/* Description */}
         <p
           ref={descriptionRef}
-          className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2"
+          className="text-gray-400 mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2"
         >
           Crafting exceptional digital experiences with modern technologies.
           Passionate about clean code, innovative design, and solving complex

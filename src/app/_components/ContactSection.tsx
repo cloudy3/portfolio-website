@@ -209,11 +209,9 @@ const ContactSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Get In Touch
-          </h2>
+          <h2 className="section-title text-gray-900">Get In Touch</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-orange-500 mx-auto mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto text-center">
             Have a project in mind or want to collaborate? I&apos;d love to hear
             from you. Let&apos;s create something amazing together.
           </p>
@@ -229,9 +227,7 @@ const ContactSection = () => {
             }`}
           >
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Let&apos;s Connect
-              </h3>
+              <h3 className="text-gray-900 mb-6">Let&apos;s Connect</h3>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 I&apos;m always interested in new opportunities, interesting
                 projects, and meaningful collaborations. Whether you have a
@@ -309,9 +305,7 @@ const ContactSection = () => {
             }`}
           >
             <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-                Send Message
-              </h3>
+              <h3 className="text-gray-900 mb-6">Send Message</h3>
 
               {/* Success Message */}
               {formState.isSubmitted && (

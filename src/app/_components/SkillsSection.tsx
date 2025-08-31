@@ -61,8 +61,10 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
           {skill.icon || "💻"}
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">{skill.name}</h3>
-          <p className="text-sm text-gray-600">{getLevelText(skill.level)}</p>
+          <h3 className="card-title text-gray-900">{skill.name}</h3>
+          <p className="card-description text-gray-600">
+            {getLevelText(skill.level)}
+          </p>
         </div>
       </div>
 
@@ -154,14 +156,12 @@ const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
   return (
     <div ref={categoryRef} className="mb-16">
       <div
-        className={`flex items-center mb-8 transition-all duration-700 ${
+        className={`flex items-center justify-center mb-8 transition-all duration-700 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
         <span className="text-3xl mr-3">{getCategoryIcon(category)}</span>
-        <h3 className="category-title text-2xl md:text-3xl font-bold text-gray-900">
-          {getCategoryTitle(category)}
-        </h3>
+        <h3 className="text-gray-900">{getCategoryTitle(category)}</h3>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -240,7 +240,7 @@ const SkillsSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2
-            className={`section-title text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 transition-all duration-700 ${
+            className={`section-title text-gray-900 transition-all duration-700 ${
               isHeaderVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
@@ -249,7 +249,7 @@ const SkillsSection = () => {
             My Skills
           </h2>
           <p
-            className={`section-subtitle text-lg md:text-xl text-gray-600 max-w-3xl mx-auto transition-all duration-700 delay-200 ${
+            className={`text-lg text-gray-600 max-w-3xl mx-auto text-center transition-all duration-700 delay-200 ${
               isHeaderVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
@@ -290,9 +290,7 @@ const SkillsSection = () => {
         {/* Skills Summary */}
         <div className="mt-16 text-center">
           <div className="bg-white rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Continuous Learning
-            </h3>
+            <h3 className="text-gray-900 mb-4">Continuous Learning</h3>
             <p className="text-gray-600 mb-6">
               I&apos;m passionate about staying current with the latest
               technologies and best practices. Always eager to learn new skills

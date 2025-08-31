@@ -122,9 +122,7 @@ const AboutSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            About Me
-          </h2>
+          <h2 className="section-title text-gray-900">About Me</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-orange-500 mx-auto"></div>
         </div>
 
@@ -236,10 +234,8 @@ const AboutSection = () => {
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Skills & Expertise
-            </h3>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h3 className="text-gray-900 mb-4">Skills & Expertise</h3>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto text-center">
               Here are some of the technologies and tools I work with regularly
             </p>
           </div>

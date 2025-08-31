@@ -94,10 +94,10 @@ const ExperienceCard = ({
               {experience.logo || "🏢"}
             </div>
             <div>
-              <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-1">
+              <h3 className="card-title text-gray-900">
                 {experience.position}
               </h3>
-              <h4 className="text-lg text-blue-600 font-semibold mb-2">
+              <h4 className="card-subtitle text-blue-600">
                 {experience.company}
               </h4>
               <div className="flex flex-col sm:flex-row sm:items-center text-sm text-gray-600 gap-2">
@@ -400,7 +400,7 @@ const ExperienceSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2
-            className={`section-title text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 transition-all duration-700 ${
+            className={`section-title text-gray-900 transition-all duration-700 ${
               isHeaderVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
@@ -409,7 +409,7 @@ const ExperienceSection = () => {
             Experience & Education
           </h2>
           <p
-            className={`section-subtitle text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8 transition-all duration-700 delay-200 ${
+            className={`text-lg text-gray-600 max-w-3xl mx-auto text-center transition-all duration-700 delay-200 ${
               isHeaderVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"

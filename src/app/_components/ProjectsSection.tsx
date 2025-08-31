@@ -64,12 +64,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       <CardHeader className="flex-1">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          {project.title}
-        </h3>
-        <p className="text-gray-600 text-sm line-clamp-3">
-          {project.description}
-        </p>
+        <h3 className="card-title text-gray-900">{project.title}</h3>
+        <p className="card-description line-clamp-3">{project.description}</p>
       </CardHeader>
 
       <CardContent className="pt-0">
@@ -295,10 +291,8 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Featured Projects
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="section-title text-gray-900">Featured Projects</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto text-center">
             A showcase of my recent work and personal projects, demonstrating
             various technologies and problem-solving approaches.
           </p>
