@@ -11,22 +11,35 @@ const config: Config = {
       screens: {
         xs: "480px",
       },
+      spacing: {
+        "18": "4.5rem",
+        "22": "5.5rem",
+        "26": "6.5rem",
+        "30": "7.5rem",
+      },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-poppins)", "system-ui", "sans-serif"],
+      },
+      fontWeight: {
+        light: "300",
+        normal: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
       },
       colors: {
         primary: {
-          navy: "#1a1a2e",
-          white: "#f8f9fa",
+          navy: "#0f0f23",
+          white: "#fefefe",
         },
         accent: {
-          gold: "#ffd700",
-          amber: "#f59e0b",
+          gold: "#e6b800",
+          amber: "#d97706",
         },
         secondary: {
-          gray: "#6c757d",
-          "light-gray": "#adb5bd",
-          "dark-gray": "#495057",
+          gray: "#64748b",
+          "light-gray": "#94a3b8",
+          "dark-gray": "#334155",
         },
       },
       animation: {

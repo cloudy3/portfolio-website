@@ -52,37 +52,74 @@ export const detectWebGLSupport = (): boolean => {
   }
 };
 
-// Particle system component
-function ParticleSystem({ count = 1000 }: { count?: number }) {
-  const meshRef = useRef<THREE.Points>(null);
+// Cloud sprite system using procedural cloud texture
+function CloudParticleSystem({ count = 400 }: { count?: number }) {
+  const groupRef = useRef<THREE.Group>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
 
-  // Generate particle positions and properties
-  const [positions, colors] = useMemo(() => {
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
+  // Create cloud texture procedurally
+  const cloudTexture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext("2d");
 
-    for (let i = 0; i < count; i++) {
-      // Random positions in a sphere
-      const radius = Math.random() * 20 + 5;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.random() * Math.PI;
+    if (!ctx) return null;
 
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      positions[i * 3 + 2] = radius * Math.cos(phi);
+    // Create gradient for cloud-like appearance with blue tinge
+    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, "rgba(240, 248, 255, 1)"); // Alice blue center
+    gradient.addColorStop(0.3, "rgba(230, 240, 255, 0.9)"); // Light blue
+    gradient.addColorStop(0.6, "rgba(200, 220, 255, 0.6)"); // Sky blue
+    gradient.addColorStop(0.8, "rgba(180, 200, 240, 0.3)"); // Deeper blue
+    gradient.addColorStop(1, "rgba(160, 180, 220, 0)"); // Fade to transparent blue
 
-      // Subtle color variations
-      const intensity = Math.random() * 0.5 + 0.5;
-      colors[i * 3] = intensity; // R
-      colors[i * 3 + 1] = intensity * 0.9; // G
-      colors[i * 3 + 2] = intensity * 1.1; // B
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 64, 64);
+
+    // Add some noise for more realistic cloud texture
+    const imageData = ctx.getImageData(0, 0, 64, 64);
+    const data = imageData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const noise = Math.random() * 0.1;
+      data[i + 3] *= 1 - noise; // Modify alpha channel
     }
 
-    return [positions, colors];
+    ctx.putImageData(imageData, 0, 0);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+  }, []);
+
+  // Generate cloud sprites
+  const cloudSprites = useMemo(() => {
+    const sprites = [];
+    for (let i = 0; i < count; i++) {
+      // Create cloud-like distribution in layers
+      const layer = Math.floor(Math.random() * 4);
+      const layerHeight = layer * 6 - 12;
+
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.random() * 20 + 8;
+      const clusterOffset = (Math.random() - 0.5) * 8;
+
+      sprites.push({
+        position: [
+          Math.cos(angle) * radius + clusterOffset,
+          layerHeight + (Math.random() - 0.5) * 3,
+          Math.sin(angle) * radius + clusterOffset - 8,
+        ] as [number, number, number],
+        scale: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.4 + 0.2,
+        speed: Math.random() * 0.5 + 0.2,
+      });
+    }
+    return sprites;
   }, [count]);
 
-  // Mouse and touch interaction effect
+  // Mouse interaction
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -97,139 +134,215 @@ function ParticleSystem({ count = 1000 }: { count?: number }) {
       }
     };
 
-    const handleTouchEnd = () => {
-      // Gradually return to center when touch ends
-      const returnToCenter = () => {
-        mouseRef.current.x *= 0.95;
-        mouseRef.current.y *= 0.95;
-        if (
-          Math.abs(mouseRef.current.x) > 0.01 ||
-          Math.abs(mouseRef.current.y) > 0.01
-        ) {
-          requestAnimationFrame(returnToCenter);
-        }
-      };
-      requestAnimationFrame(returnToCenter);
-    };
-
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    window.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);
-
-  // Animation loop
-  useFrame((state) => {
-    if (!meshRef.current) return;
-
-    const time = state.clock.getElapsedTime();
-    const positions = meshRef.current.geometry.attributes.position
-      .array as Float32Array;
-
-    // Animate particles with mouse influence
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-
-      // Original positions for reference
-      const originalX = positions[i3];
-      const originalY = positions[i3 + 1];
-
-      // Mouse influence
-      const mouseInfluence = 1.2; // Increased from 0.5 to 1.2 for stronger effect
-      const mouseDistanceX = mouseRef.current.x * 15 - originalX; // Increased from 10 to 15 for larger influence area
-      const mouseDistanceY = mouseRef.current.y * 15 - originalY; // Increased from 10 to 15 for larger influence area
-      const mouseDistance = Math.sqrt(
-        mouseDistanceX * mouseDistanceX + mouseDistanceY * mouseDistanceY
-      );
-      const mouseEffect = Math.max(0, 1 - mouseDistance / 8) * mouseInfluence; // Increased radius from 5 to 8
-
-      // Apply subtle floating animation with mouse interaction
-      positions[i3] +=
-        Math.sin(time * 0.5 + i * 0.01) * 0.01 +
-        mouseDistanceX * mouseEffect * 0.03; // Increased from 0.01 to 0.03 for more visible movement
-      positions[i3 + 1] +=
-        Math.cos(time * 0.3 + i * 0.01) * 0.01 +
-        mouseDistanceY * mouseEffect * 0.03; // Increased from 0.01 to 0.03 for more visible movement
-      positions[i3 + 2] += Math.sin(time * 0.4 + i * 0.02) * 0.005;
-    }
-
-    meshRef.current.geometry.attributes.position.needsUpdate = true;
-
-    // Rotate the entire system slowly
-    meshRef.current.rotation.y = time * 0.05;
-    meshRef.current.rotation.x = Math.sin(time * 0.1) * 0.1;
-  });
-
-  return (
-    <points ref={meshRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-        <bufferAttribute attach="attributes-color" args={[colors, 3]} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.05}
-        vertexColors
-        transparent
-        opacity={0.6}
-        sizeAttenuation
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
-  );
-}
-
-// Geometric animation component
-function GeometricShapes() {
-  const groupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     if (!groupRef.current) return;
 
     const time = state.clock.getElapsedTime();
-    groupRef.current.rotation.x = time * 0.1;
-    groupRef.current.rotation.y = time * 0.15;
+
+    // Animate each cloud sprite
+    groupRef.current.children.forEach((child, index) => {
+      if (child instanceof THREE.Sprite) {
+        const sprite = cloudSprites[index];
+        const speed = sprite.speed;
+
+        // Organic movement
+        child.position.x =
+          sprite.position[0] + Math.sin(time * speed + index) * 1.2;
+        child.position.y =
+          sprite.position[1] + Math.cos(time * speed * 0.7 + index) * 0.6;
+        child.position.z =
+          sprite.position[2] + Math.sin(time * speed * 0.5 + index) * 0.4;
+
+        // Gentle horizontal drift
+        child.position.x += time * 0.1;
+
+        // Reset if drifted too far
+        if (child.position.x > 30) {
+          child.position.x = -30;
+        }
+
+        // Mouse influence
+        const mouseInfluence = 0.5;
+        const mouseDistanceX = mouseRef.current.x * 10 - child.position.x;
+        const mouseDistanceY = mouseRef.current.y * 10 - child.position.y;
+        const mouseDistance = Math.sqrt(
+          mouseDistanceX * mouseDistanceX + mouseDistanceY * mouseDistanceY
+        );
+        const mouseEffect = Math.max(0, 1 - mouseDistance / 8) * mouseInfluence;
+
+        child.position.x += mouseDistanceX * mouseEffect * 0.01;
+        child.position.y += mouseDistanceY * mouseEffect * 0.008;
+      }
+    });
   });
+
+  if (!cloudTexture) return null;
 
   return (
     <group ref={groupRef}>
-      {/* Wireframe torus */}
-      <mesh position={[-5, 2, -5]}>
-        <torusGeometry args={[1, 0.3, 16, 32]} />
-        <meshBasicMaterial
-          wireframe
-          color="#ffd700"
-          opacity={0.3}
-          transparent
-        />
-      </mesh>
-
-      {/* Wireframe octahedron */}
-      <mesh position={[5, -2, -3]}>
-        <octahedronGeometry args={[1.5]} />
-        <meshBasicMaterial
-          wireframe
-          color="#ffffff"
-          opacity={0.2}
-          transparent
-        />
-      </mesh>
-
-      {/* Wireframe icosahedron */}
-      <mesh position={[0, 3, -8]}>
-        <icosahedronGeometry args={[1]} />
-        <meshBasicMaterial
-          wireframe
-          color="#adb5bd"
-          opacity={0.25}
-          transparent
-        />
-      </mesh>
+      {cloudSprites.map((sprite, index) => (
+        <sprite
+          key={index}
+          position={sprite.position}
+          scale={[sprite.scale, sprite.scale, 1]}
+        >
+          <spriteMaterial
+            map={cloudTexture}
+            transparent
+            opacity={sprite.opacity}
+            blending={THREE.AdditiveBlending}
+          />
+        </sprite>
+      ))}
     </group>
+  );
+}
+
+// Individual cloud component made of multiple spheres
+function CloudCluster({
+  position,
+  scale,
+  speed,
+}: {
+  position: [number, number, number];
+  scale: [number, number, number];
+  speed: number;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+
+  // Generate multiple spheres to create a cloud-like cluster
+  const sphereData = useMemo(() => {
+    const spheres = [];
+    const numSpheres = 12 + Math.floor(Math.random() * 8); // 12-20 spheres per cloud
+
+    for (let i = 0; i < numSpheres; i++) {
+      // Create more organic distribution
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.random() * 2.5;
+      const height = (Math.random() - 0.5) * 1.5;
+
+      spheres.push({
+        position: [
+          Math.cos(angle) * radius,
+          height,
+          Math.sin(angle) * radius,
+        ] as [number, number, number],
+        scale: 0.4 + Math.random() * 0.8, // Varying sizes
+        opacity: 0.15 + Math.random() * 0.25,
+      });
+    }
+    return spheres;
+  }, []);
+
+  useFrame((state) => {
+    if (!groupRef.current) return;
+
+    const time = state.clock.getElapsedTime();
+
+    // Organic floating movement for the entire cloud
+    groupRef.current.position.x = position[0] + Math.sin(time * speed) * 1.5;
+    groupRef.current.position.y =
+      position[1] + Math.cos(time * speed * 0.7) * 0.8;
+    groupRef.current.position.z =
+      position[2] + Math.sin(time * speed * 0.5) * 0.5;
+
+    // Subtle rotation
+    groupRef.current.rotation.y = time * speed * 0.03;
+    groupRef.current.rotation.z = Math.sin(time * speed * 0.3) * 0.02;
+
+    // Breathing effect
+    const breathe = 1 + Math.sin(time * speed * 0.8) * 0.08;
+    groupRef.current.scale.set(
+      scale[0] * breathe,
+      scale[1] * breathe,
+      scale[2] * breathe
+    );
+
+    // Animate individual spheres within the cloud for organic movement
+    groupRef.current.children.forEach((child, index) => {
+      if (child instanceof THREE.Mesh) {
+        const sphereSpeed = speed * (0.3 + index * 0.05);
+        const originalPos = sphereData[index].position;
+        child.position.x =
+          originalPos[0] + Math.sin(time * sphereSpeed + index) * 0.15;
+        child.position.y =
+          originalPos[1] + Math.cos(time * sphereSpeed * 0.8 + index) * 0.1;
+        child.position.z =
+          originalPos[2] + Math.sin(time * sphereSpeed * 0.6 + index) * 0.08;
+      }
+    });
+  });
+
+  return (
+    <group ref={groupRef} position={position}>
+      {sphereData.map((sphere, index) => (
+        <mesh key={index} position={sphere.position}>
+          <sphereGeometry args={[sphere.scale, 16, 12]} />
+          <meshLambertMaterial
+            color="#e6f3ff"
+            opacity={sphere.opacity}
+            transparent
+            fog={false}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+// Floating cloud shapes component
+function FloatingClouds() {
+  const cloudData = useMemo(
+    () => [
+      {
+        position: [-8, 4, -12] as [number, number, number],
+        scale: [1.5, 1.0, 1.2] as [number, number, number],
+        speed: 0.3,
+      },
+      {
+        position: [6, -1, -15] as [number, number, number],
+        scale: [1.8, 1.2, 1.4] as [number, number, number],
+        speed: 0.25,
+      },
+      {
+        position: [-3, 6, -18] as [number, number, number],
+        scale: [1.6, 1.1, 1.3] as [number, number, number],
+        speed: 0.35,
+      },
+      {
+        position: [10, 2, -10] as [number, number, number],
+        scale: [1.4, 0.9, 1.1] as [number, number, number],
+        speed: 0.28,
+      },
+      {
+        position: [-12, -3, -20] as [number, number, number],
+        scale: [2.0, 1.3, 1.6] as [number, number, number],
+        speed: 0.22,
+      },
+    ],
+    []
+  );
+
+  return (
+    <>
+      {cloudData.map((data, index) => (
+        <CloudCluster
+          key={index}
+          position={data.position}
+          scale={data.scale}
+          speed={data.speed}
+        />
+      ))}
+    </>
   );
 }
 
@@ -260,13 +373,13 @@ function WebGLFallback() {
 interface ThreeSceneProps {
   className?: string;
   particleCount?: number;
-  enableGeometry?: boolean;
+  enableClouds?: boolean;
 }
 
 export default function ThreeScene({
   className = "",
   particleCount = 800,
-  enableGeometry = true,
+  enableClouds = true,
 }: ThreeSceneProps) {
   const [webGLSupported, setWebGLSupported] = useState<boolean | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -313,7 +426,7 @@ export default function ThreeScene({
   const optimizedParticleCount = isMobile
     ? Math.min(particleCount * 0.4, 300)
     : particleCount;
-  const optimizedGeometry = isMobile ? false : enableGeometry;
+  const optimizedClouds = isMobile ? false : enableClouds;
   const pixelRatio: [number, number] = isMobile ? [1, 1.5] : [1, 2];
 
   return (
@@ -337,8 +450,19 @@ export default function ThreeScene({
         frameloop={isMobile ? "demand" : "always"} // Reduce frame rate on mobile when not interacting
       >
         <Suspense fallback={null}>
-          <ParticleSystem count={optimizedParticleCount} />
-          {optimizedGeometry && <GeometricShapes />}
+          <ambientLight intensity={0.4} color="#e6f3ff" />
+          <directionalLight
+            position={[10, 10, 5]}
+            intensity={0.3}
+            color="#ffffff"
+          />
+          <directionalLight
+            position={[-5, 5, 10]}
+            intensity={0.15}
+            color="#87ceeb"
+          />
+          <CloudParticleSystem count={optimizedParticleCount} />
+          {optimizedClouds && <FloatingClouds />}
         </Suspense>
       </Canvas>
     </div>

@@ -12,7 +12,6 @@ import {
   ModalFooter,
 } from "@/components/ui/Modal";
 import { PROJECT_CATEGORIES } from "@/lib/constants";
-import { createStaggeredScrollAnimation } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 import { sampleProjects } from "@/lib/projectData";
 import { useProjects } from "@/hooks/useProjects";
@@ -31,7 +30,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onViewDetails,
 }) => {
   return (
-    <Card hover className="h-full flex flex-col project-card">
+    <Card hover className="h-full flex flex-col">
       <div className="relative h-48 overflow-hidden rounded-t-lg">
         {project.images.length > 0 ? (
           <Image
@@ -234,6 +233,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
 }) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
@@ -257,68 +257,59 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
     setSelectedProject(null);
   };
 
-  // Initialize animations
+  // Initialize visibility with Intersection Observer
   useEffect(() => {
-    if (sectionRef.current && cardsRef.current) {
-      // Animate section title
-      createStaggeredScrollAnimation(".projects-title", "textReveal", {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        duration: 0.8,
-      });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      // Animate filter buttons
-      createStaggeredScrollAnimation(".filter-button", "fadeIn", {
-        trigger: sectionRef.current,
-        start: "top 70%",
-        stagger: 0.1,
-        delay: 0.3,
-      });
-
-      // Animate project cards
-      createStaggeredScrollAnimation(".project-card", "scaleIn", {
-        trigger: cardsRef.current,
-        start: "top 80%",
-        stagger: 0.15,
-        delay: 0.5,
-      });
+    const currentSection = sectionRef.current;
+    if (currentSection) {
+      observer.observe(currentSection);
     }
+
+    return () => {
+      if (currentSection) {
+        observer.unobserve(currentSection);
+      }
+    };
   }, []);
 
-  // Re-animate cards when filter changes
-  useEffect(() => {
-    if (cardsRef.current) {
-      const cards = cardsRef.current.querySelectorAll(".project-card");
-      cards.forEach((card) => {
-        (card as HTMLElement).style.opacity = "0";
-        (card as HTMLElement).style.transform = "scale(0.8)";
-      });
-
-      setTimeout(() => {
-        createStaggeredScrollAnimation(".project-card", "scaleIn", {
-          stagger: 0.1,
-          duration: 0.6,
-        });
-      }, 100);
-    }
-  }, [selectedCategory]);
-
   return (
-    <section ref={sectionRef} id="projects" className="py-20 bg-gray-50">
+    <section
+      ref={sectionRef}
+      id="projects"
+      className="-mt-16 pt-20 pb-20 bg-gray-50"
+    >
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="projects-title text-4xl font-bold text-gray-900 mb-4">
+        <div
+          className={`text-center mb-12 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Featured Projects
           </h2>
-          <p className="projects-title text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             A showcase of my recent work and personal projects, demonstrating
             various technologies and problem-solving approaches.
           </p>
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <div
+          className={`flex flex-wrap justify-center gap-3 mb-12 transition-all duration-1000 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           {PROJECT_CATEGORIES.map((category) => (
             <Button
               key={category}
@@ -326,7 +317,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               size="sm"
               onClick={() => setSelectedCategory(category)}
               className={cn(
-                "filter-button capitalize",
+                "capitalize",
                 selectedCategory === category && "ring-2 ring-amber-200"
               )}
             >
@@ -341,14 +332,23 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         {/* Projects Grid */}
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-1000 delay-400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
-          {sortedProjects.map((project) => (
-            <ProjectCard
+          {sortedProjects.map((project, index) => (
+            <div
               key={project.id}
-              project={project}
-              onViewDetails={handleViewDetails}
-            />
+              className={`transition-all duration-700 ${
+                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
+              }`}
+              style={{ transitionDelay: `${600 + index * 100}ms` }}
+            >
+              <ProjectCard
+                project={project}
+                onViewDetails={handleViewDetails}
+              />
+            </div>
           ))}
         </div>
 

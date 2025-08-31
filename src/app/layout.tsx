@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navigation from "./_components/Navigation";
 import ScrollProvider from "./_components/ScrollProvider";
 import BrowserCompatibility from "./_components/BrowserCompatibility";
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-poppins",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} font-sans antialiased bg-white text-gray-900 overflow-x-hidden`}
+        className={`${poppins.variable} font-sans antialiased bg-white text-gray-900 overflow-x-hidden`}
       >
         <BrowserCompatibility />
         <Navigation />

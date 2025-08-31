@@ -117,17 +117,70 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           "-=0.1"
         );
 
-      // Parallax effect on scroll
+      // Zoom-out scroll effect
       gsap.to(heroRef.current, {
-        yPercent: -50,
+        scale: 0.8,
         ease: "none",
         scrollTrigger: {
           trigger: heroRef.current,
-          start: "top bottom",
+          start: "top top",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
         },
       });
+
+      // Parallax effect on scroll for content
+      gsap.to(
+        [
+          titleRef.current,
+          subtitleRef.current,
+          descriptionRef.current,
+          ctaButtonsRef.current,
+        ],
+        {
+          yPercent: -30,
+          opacity: 0.3,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        }
+      );
+
+      // Fade out scroll indicator earlier
+      gsap.to(scrollIndicatorRef.current, {
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "top -20%",
+          scrub: 1,
+        },
+      });
+
+      // Parallax effect on scroll for content
+      gsap.to(
+        [
+          titleRef.current,
+          subtitleRef.current,
+          descriptionRef.current,
+          ctaButtonsRef.current,
+        ],
+        {
+          yPercent: -30,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        }
+      );
 
       // Floating animation for scroll indicator
       gsap.to(scrollIndicatorRef.current, {
@@ -145,7 +198,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
   return (
     <section
       ref={heroRef}
-      className={`relative min-h-screen lg:min-h-[110vh] xl:min-h-[120vh] flex items-center justify-center overflow-hidden ${className}`}
+      className={`relative h-screen flex items-center justify-center overflow-hidden ${className}`}
       id="hero"
     >
       {/* 3D Background Scene */}
@@ -153,7 +206,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         <ThreeScene
           className="w-full h-full"
           particleCount={900}
-          enableGeometry={true}
+          enableClouds={true}
         />
       </div>
 

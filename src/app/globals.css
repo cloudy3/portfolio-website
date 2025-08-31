@@ -1,21 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  /* Mont-Fort inspired color palette */
-  --color-primary-navy: #1a1a2e;
-  --color-primary-white: #f8f9fa;
-  --color-accent-gold: #ffd700;
-  --color-accent-amber: #f59e0b;
-  --color-secondary-gray: #6c757d;
-  --color-secondary-light-gray: #adb5bd;
-  --color-secondary-dark-gray: #495057;
+  /* Mont-Fort inspired color palette - refined */
+  --color-primary-navy: #0f0f23;
+  --color-primary-white: #fefefe;
+  --color-accent-gold: #e6b800;
+  --color-accent-amber: #d97706;
+  --color-secondary-gray: #64748b;
+  --color-secondary-light-gray: #94a3b8;
+  --color-secondary-dark-gray: #334155;
 
   /* Typography */
-  --font-inter: "Inter", system-ui, sans-serif;
+  --font-poppins: "Poppins", system-ui, sans-serif;
 
-  /* Spacing and sizing */
+  /* Spacing and sizing - Mont-Fort inspired */
   --header-height: 4rem;
   --section-padding: 6rem;
+  --section-padding-mobile: 3rem;
+  --container-padding: 2rem;
+  --border-radius-sm: 0.5rem;
+  --border-radius-md: 0.75rem;
+  --border-radius-lg: 1rem;
 }
 
 /* Base styles with cross-browser compatibility */
@@ -33,7 +38,7 @@ html {
 }
 
 body {
-  font-family: var(--font-inter);
+  font-family: var(--font-poppins);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -78,6 +83,13 @@ body {
   padding-bottom: var(--section-padding);
 }
 
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: var(--section-padding-mobile);
+    padding-bottom: var(--section-padding-mobile);
+  }
+}
+
 /* Line clamp utilities */
 .line-clamp-1 {
   overflow: hidden;
@@ -104,20 +116,26 @@ body {
 }
 
 .container-custom {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--container-padding);
 }
 
 @media (min-width: 640px) {
   .container-custom {
-    padding: 0 2rem;
+    padding: 0 calc(var(--container-padding) * 1.5);
   }
 }
 
 @media (min-width: 1024px) {
   .container-custom {
-    padding: 0 3rem;
+    padding: 0 calc(var(--container-padding) * 2);
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-custom {
+    padding: 0 var(--container-padding);
   }
 }
 
@@ -369,7 +387,7 @@ body.modal-open {
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
   :root {
-    --section-padding: 4rem;
+    --section-padding-mobile: 2.5rem;
   }
 
   /* Reduce motion for users who prefer it */
@@ -418,11 +436,11 @@ body.modal-open {
 /* Extra small screens */
 @media (max-width: 480px) {
   :root {
-    --section-padding: 3rem;
+    --section-padding-mobile: 2rem;
   }
 
   .container-custom {
-    padding: 0 0.75rem;
+    padding: 0 1rem;
   }
 }
 
@@ -440,23 +458,147 @@ body.modal-open {
   }
 }
 
-/* Optimize font sizes for mobile readability */
-@media (max-width: 640px) {
-  h1 {
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
-  }
+/* Enhanced typography for Mont-Fort aesthetic */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
 
-  h2 {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-  }
+h1 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
 
-  h3 {
-    font-size: clamp(1.25rem, 3.5vw, 1.75rem);
-  }
+h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
 
-  p {
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
-  }
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 600;
+}
+
+h4 {
+  font-size: clamp(1.25rem, 3vw, 1.875rem);
+  font-weight: 500;
+}
+
+p {
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* Hero section zoom effect styles */
+#hero {
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Section-specific typography adjustments */
+.section-title {
+  font-size: clamp(2rem, 4.5vw, 3rem) !important;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.projects-title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem) !important;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* Card title adjustments */
+.experience-card h3 {
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem) !important;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.experience-card h4 {
+  font-size: clamp(1rem, 2vw, 1.125rem) !important;
+  font-weight: 500;
+}
+
+/* Project card title adjustments */
+.project-card h3 {
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem) !important;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Mont-Fort inspired button styles */
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-accent-gold),
+    var(--color-accent-amber)
+  );
+  color: var(--color-primary-navy);
+  font-weight: 600;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px 0 rgba(230, 184, 0, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(230, 184, 0, 0.35);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-primary-white);
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-md);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Mont-Fort inspired card styles */
+.card-refined {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-refined:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Refined section backgrounds */
+.section-bg-light {
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+}
+
+.section-bg-dark {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-navy) 0%,
+    #1e1e3f 100%
+  );
 }
 
 /* Browser-specific fixes and enhancements */
