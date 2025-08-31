@@ -20,8 +20,14 @@ export default function Navigation({ className }: NavigationProps) {
     let locomotiveScroll: any = null;
 
     const handleScroll = (scrollY?: number) => {
-      const currentScrollY = scrollY || window.scrollY || window.pageYOffset;
+      const currentScrollY = scrollY || window.scrollY;
       setIsScrolled(currentScrollY > 50);
+
+      // If we're at the very top, always show hero as active
+      if (currentScrollY < 100) {
+        setActiveSection("hero");
+        return;
+      }
 
       // Find active section based on scroll position
       const sections = NAVIGATION_ITEMS.map((item) => item.id);
@@ -80,7 +86,7 @@ export default function Navigation({ className }: NavigationProps) {
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: "-10% 0px -80% 0px",
+      rootMargin: "-5% 0px -70% 0px",
       threshold: 0.1,
     };
 
@@ -151,8 +157,7 @@ export default function Navigation({ className }: NavigationProps) {
         // Fallback to regular scroll
         const headerOffset = 80;
         const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition =
-          elementPosition + window.pageYOffset - headerOffset;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
         window.scrollTo({
           top: offsetPosition,
@@ -250,14 +255,18 @@ export default function Navigation({ className }: NavigationProps) {
               id="mobile-menu-button"
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
-                "inline-flex items-center justify-center p-2 rounded-md transition-colors duration-300",
+                "inline-flex items-center justify-center p-3 rounded-md transition-all duration-300 touch-manipulation",
+                "active:scale-95",
                 isScrolled
-                  ? "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
-                  : "text-white hover:text-gray-300 hover:bg-white/10"
+                  ? "text-gray-700 hover:text-gray-900 hover:bg-gray-100 active:bg-gray-200"
+                  : "text-white hover:text-gray-300 hover:bg-white/10 active:bg-white/20"
               )}
-              aria-expanded="false"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? "Close main menu" : "Open main menu"}
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">
+                {isOpen ? "Close" : "Open"} main menu
+              </span>
               {/* Hamburger icon */}
               <div className="w-6 h-6 relative">
                 <span
@@ -302,11 +311,11 @@ export default function Navigation({ className }: NavigationProps) {
               key={item.id}
               onClick={() => handleNavClick(item.href)}
               className={cn(
-                "block w-full text-left px-3 py-2 text-base font-medium transition-all duration-300",
-                "hover:bg-gray-100 hover:scale-105",
+                "block w-full text-left px-4 py-3 text-base font-medium transition-all duration-300 rounded-lg touch-manipulation",
+                "active:scale-95 active:bg-gray-200",
                 activeSection === item.id
-                  ? "text-blue-600 bg-blue-50"
-                  : "text-gray-700 hover:text-gray-900"
+                  ? "text-blue-600 bg-blue-50 border-l-4 border-blue-600"
+                  : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
               )}
             >
               {item.label}

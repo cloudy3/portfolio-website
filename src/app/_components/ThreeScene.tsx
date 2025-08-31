@@ -5,13 +5,48 @@ import { Suspense, useRef, useMemo, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-// WebGL capability detection utility
+// WebGL capability detection utility with enhanced browser support
 export const detectWebGLSupport = (): boolean => {
   try {
     const canvas = document.createElement("canvas");
-    const gl =
-      canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-    return !!gl;
+
+    // Try WebGL2 first, then WebGL1, then experimental
+    const gl = (canvas.getContext("webgl2") ||
+      canvas.getContext("webgl") ||
+      canvas.getContext("experimental-webgl")) as
+      | WebGLRenderingContext
+      | WebGL2RenderingContext
+      | null;
+
+    if (!gl) return false;
+
+    // Additional capability checks for better compatibility
+    const hasFloatTextures =
+      gl.getExtension("OES_texture_float") ||
+      gl.getExtension("EXT_color_buffer_float");
+    const hasVertexArrayObject =
+      gl.getExtension("OES_vertex_array_object") ||
+      gl.getExtension("WEBGL_vertex_array_object");
+
+    // Use the extensions if needed (prevents unused variable warnings)
+    if (hasFloatTextures || hasVertexArrayObject) {
+      // Extensions are available for enhanced features
+    }
+
+    // Basic functionality test
+    const shader = gl.createShader(gl.VERTEX_SHADER);
+    if (!shader) return false;
+
+    gl.shaderSource(
+      shader,
+      "attribute vec4 position; void main() { gl_Position = position; }"
+    );
+    gl.compileShader(shader);
+
+    const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+    gl.deleteShader(shader);
+
+    return success;
   } catch {
     return false;
   }
@@ -47,15 +82,45 @@ function ParticleSystem({ count = 1000 }: { count?: number }) {
     return [positions, colors];
   }, [count]);
 
-  // Mouse interaction effect
+  // Mouse and touch interaction effect
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
 
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches.length > 0) {
+        const touch = event.touches[0];
+        mouseRef.current.x = (touch.clientX / window.innerWidth) * 2 - 1;
+        mouseRef.current.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      // Gradually return to center when touch ends
+      const returnToCenter = () => {
+        mouseRef.current.x *= 0.95;
+        mouseRef.current.y *= 0.95;
+        if (
+          Math.abs(mouseRef.current.x) > 0.01 ||
+          Math.abs(mouseRef.current.y) > 0.01
+        ) {
+          requestAnimationFrame(returnToCenter);
+        }
+      };
+      requestAnimationFrame(returnToCenter);
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
   }, []);
 
   // Animation loop
@@ -204,9 +269,26 @@ export default function ThreeScene({
   enableGeometry = true,
 }: ThreeSceneProps) {
   const [webGLSupported, setWebGLSupported] = useState<boolean | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setWebGLSupported(detectWebGLSupport());
+
+    // Detect mobile devices for performance optimization
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isMobileDevice =
+        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(
+          userAgent
+        );
+      const isSmallScreen = window.innerWidth < 768;
+      setIsMobile(isMobileDevice || isSmallScreen);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Show loading state while checking WebGL support
@@ -227,6 +309,13 @@ export default function ThreeScene({
     );
   }
 
+  // Optimize settings for mobile devices
+  const optimizedParticleCount = isMobile
+    ? Math.min(particleCount * 0.4, 300)
+    : particleCount;
+  const optimizedGeometry = isMobile ? false : enableGeometry;
+  const pixelRatio: [number, number] = isMobile ? [1, 1.5] : [1, 2];
+
   return (
     <div className={`relative ${className}`}>
       <Canvas
@@ -237,16 +326,19 @@ export default function ThreeScene({
           far: 1000,
         }}
         gl={{
-          antialias: true,
+          antialias: !isMobile, // Disable antialiasing on mobile for performance
           alpha: true,
-          powerPreference: "high-performance",
+          powerPreference: isMobile ? "low-power" : "high-performance",
+          stencil: false,
+          depth: false,
         }}
-        dpr={[1, 2]} // Limit pixel ratio for performance
-        performance={{ min: 0.5 }} // Performance monitoring
+        dpr={pixelRatio} // Reduced pixel ratio for mobile
+        performance={{ min: isMobile ? 0.3 : 0.5 }} // Lower performance threshold for mobile
+        frameloop={isMobile ? "demand" : "always"} // Reduce frame rate on mobile when not interacting
       >
         <Suspense fallback={null}>
-          <ParticleSystem count={particleCount} />
-          {enableGeometry && <GeometricShapes />}
+          <ParticleSystem count={optimizedParticleCount} />
+          {optimizedGeometry && <GeometricShapes />}
         </Suspense>
       </Canvas>
     </div>

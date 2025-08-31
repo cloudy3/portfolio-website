@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type LocomotiveScroll from "locomotive-scroll";
+import { detectBrowser, shouldUseReducedMotion } from "@/lib/browserDetection";
 
 interface ScrollProviderProps {
   children: React.ReactNode;
@@ -18,22 +19,42 @@ export default function ScrollProvider({ children }: ScrollProviderProps) {
         const LocomotiveScroll = (await import("locomotive-scroll")).default;
 
         if (scrollRef.current) {
+          // Check browser compatibility and user preferences
+          const browser = detectBrowser();
+          const prefersReducedMotion = shouldUseReducedMotion();
+
+          // Skip smooth scrolling for older browsers or if user prefers reduced motion
+          if (prefersReducedMotion || !browser.supportsIntersectionObserver) {
+            console.log(
+              "Skipping smooth scroll due to browser compatibility or user preferences"
+            );
+            return;
+          }
+
+          // Browser-specific optimizations
+          const isOlderSafari =
+            browser.name === "safari" && parseInt(browser.version) < 14;
+          const isFirefox = browser.name === "firefox";
+
           locomotiveScroll = new LocomotiveScroll({
             el: scrollRef.current,
-            smooth: true,
-            multiplier: 1,
+            smooth: !browser.isMobile && !isOlderSafari, // Disable on mobile and older Safari
+            multiplier: browser.isMobile ? 0.6 : isFirefox ? 0.8 : 1, // Reduced multiplier for Firefox
             class: "is-revealed",
             scrollbarContainer: false,
             lenisOptions: {
-              lerp: 0.1,
-              duration: 1.2,
+              lerp: browser.isMobile ? 0.03 : isOlderSafari ? 0.05 : 0.1,
+              duration: browser.isMobile ? 0.6 : isFirefox ? 1.0 : 1.2,
               orientation: "vertical",
               gestureOrientation: "vertical",
-              smoothWheel: true,
-              wheelMultiplier: 1,
-              touchMultiplier: 2,
-              normalizeWheel: true,
-              easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+              smoothWheel: !browser.isMobile && !isOlderSafari,
+              wheelMultiplier: browser.isMobile ? 0.6 : isFirefox ? 0.8 : 1,
+              touchMultiplier: browser.isMobile ? 1.2 : 2,
+              normalizeWheel: !browser.isMobile && !isOlderSafari,
+              easing: (t: number) => {
+                if (browser.isMobile || isOlderSafari) return t;
+                return Math.min(1, 1.001 - Math.pow(2, -10 * t));
+              },
             },
           });
 

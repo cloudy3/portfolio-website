@@ -129,10 +129,10 @@ const AboutSection = () => {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start mb-12 sm:mb-16">
           {/* Left Column - Photo and Personal Info */}
           <div
-            className={`space-y-8 transition-all duration-1000 delay-200 ${
+            className={`space-y-6 sm:space-y-8 transition-all duration-1000 delay-200 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 -translate-x-8"
@@ -140,30 +140,40 @@ const AboutSection = () => {
           >
             {/* Photo Placeholder */}
             <div className="relative">
-              <div className="aspect-square max-w-md mx-auto lg:mx-0 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl shadow-lg overflow-hidden">
+              <div className="aspect-square max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl shadow-lg overflow-hidden">
                 <div className="w-full h-full flex items-center justify-center text-gray-500">
                   <div className="text-center">
-                    <div className="w-24 h-24 bg-gray-400 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-3xl text-white">👤</span>
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gray-400 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                      <span className="text-2xl sm:text-3xl text-white">
+                        👤
+                      </span>
                     </div>
-                    <p className="text-sm">Professional Photo</p>
+                    <p className="text-xs sm:text-sm">Professional Photo</p>
                   </div>
                 </div>
               </div>
               {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-amber-400 rounded-full opacity-80"></div>
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-orange-500 rounded-full opacity-60"></div>
+              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 w-6 h-6 sm:w-8 sm:h-8 bg-amber-400 rounded-full opacity-80"></div>
+              <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 w-4 h-4 sm:w-6 sm:h-6 bg-orange-500 rounded-full opacity-60"></div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-900">5+</div>
-                <div className="text-sm text-gray-600">Years Experience</div>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-gray-900">
+                  5+
+                </div>
+                <div className="text-xs sm:text-sm text-gray-600">
+                  Years Experience
+                </div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-gray-900">50+</div>
-                <div className="text-sm text-gray-600">Projects Completed</div>
+              <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-gray-900">
+                  50+
+                </div>
+                <div className="text-xs sm:text-sm text-gray-600">
+                  Projects Completed
+                </div>
               </div>
             </div>
           </div>
@@ -200,16 +210,16 @@ const AboutSection = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={handleDownloadCV}
-                className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-8 py-3 rounded-full font-semibold hover:from-amber-500 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-6 sm:px-8 py-3 rounded-full font-semibold hover:from-amber-500 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:scale-95 touch-manipulation"
               >
                 Download CV
               </button>
               <a
                 href="#contact"
-                className="border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300 text-center"
+                className="border-2 border-gray-900 text-gray-900 px-6 sm:px-8 py-3 rounded-full font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300 text-center active:scale-95 touch-manipulation"
               >
                 Get In Touch
               </a>

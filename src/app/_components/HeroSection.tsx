@@ -145,7 +145,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
   return (
     <section
       ref={heroRef}
-      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${className}`}
+      className={`relative min-h-screen lg:min-h-[110vh] xl:min-h-[120vh] flex items-center justify-center overflow-hidden ${className}`}
       id="hero"
     >
       {/* 3D Background Scene */}
@@ -161,11 +161,11 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/20 via-slate-900/40 to-slate-900/60 z-10"></div>
 
       {/* Hero Content */}
-      <div className="relative z-20 text-center px-6 sm:px-8 lg:px-12 max-w-5xl mx-auto mt-24 sm:mt-28 lg:mt-62">
+      <div className="relative z-20 text-center px-4 sm:px-6 md:px-8 lg:px-12 max-w-5xl mx-auto pt-24 sm:pt-28 md:pt-32">
         {/* Main Title */}
         <h1
           ref={titleRef}
-          className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight"
+          className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
         >
           <span className="block">Creative</span>
           <span className="block bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
@@ -176,7 +176,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         {/* Subtitle */}
         <p
           ref={subtitleRef}
-          className="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-4 font-light"
+          className="text-lg xs:text-xl sm:text-2xl md:text-3xl text-gray-300 mb-3 sm:mb-4 font-light px-2"
         >
           Full-Stack Engineer & UI/UX Enthusiast
         </p>
@@ -184,7 +184,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         {/* Description */}
         <p
           ref={descriptionRef}
-          className="text-base sm:text-lg lg:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed"
+          className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2"
         >
           Crafting exceptional digital experiences with modern technologies.
           Passionate about clean code, innovative design, and solving complex
@@ -194,11 +194,11 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         {/* Call-to-Action Buttons */}
         <div
           ref={ctaButtonsRef}
-          className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-16"
+          className="flex flex-col xs:flex-row gap-3 sm:gap-4 md:gap-6 justify-center items-center mb-12 sm:mb-14 md:mb-16 px-2"
         >
           <button
             onClick={() => scrollToSection("projects")}
-            className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-900 font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/25 hover:scale-105"
+            className="group relative w-full xs:w-auto min-w-[160px] px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-900 font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/25 active:scale-95 touch-manipulation"
           >
             <span className="relative z-10">View My Work</span>
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -206,7 +206,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
 
           <button
             onClick={() => scrollToSection("contact")}
-            className="group px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10 hover:scale-105"
+            className="group w-full xs:w-auto min-w-[160px] px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/30 text-white font-semibold rounded-lg backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10 active:scale-95 touch-manipulation"
           >
             <span className="group-hover:text-amber-300 transition-colors duration-300">
               Get In Touch
@@ -217,14 +217,14 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         {/* Scroll Indicator */}
         <div
           ref={scrollIndicatorRef}
-          className="flex flex-col items-center cursor-pointer"
+          className="flex flex-col items-center cursor-pointer touch-manipulation"
           onClick={() => scrollToSection("about")}
         >
-          <span className="text-gray-400 text-sm mb-2 hover:text-amber-400 transition-colors duration-300">
+          <span className="text-gray-400 text-xs sm:text-sm mb-2 hover:text-amber-400 transition-colors duration-300">
             Scroll to explore
           </span>
-          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center hover:border-amber-400 transition-colors duration-300">
-            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce"></div>
+          <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-gray-400 rounded-full flex justify-center hover:border-amber-400 transition-colors duration-300 active:scale-95">
+            <div className="w-1 h-2 sm:h-3 bg-gray-400 rounded-full mt-1.5 sm:mt-2 animate-bounce"></div>
           </div>
         </div>
       </div>

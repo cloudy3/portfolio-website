@@ -219,10 +219,10 @@ const ContactSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 max-w-6xl mx-auto">
           {/* Contact Information */}
           <div
-            className={`space-y-8 transition-all duration-1000 delay-200 ${
+            className={`space-y-6 sm:space-y-8 transition-all duration-1000 delay-200 ${
               isVisible
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 -translate-x-8"
@@ -283,14 +283,14 @@ const ContactSection = () => {
             {/* Social Media Links */}
             <div>
               <h4 className="font-semibold text-gray-900 mb-4">Follow Me</h4>
-              <div className="flex space-x-4">
+              <div className="flex flex-wrap gap-3 sm:gap-4">
                 {SOCIAL_LINKS.map((social) => (
                   <a
                     key={social.name}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 hover:bg-gradient-to-r hover:from-amber-400 hover:to-orange-500 hover:text-white"
+                    className="w-11 h-11 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 hover:bg-gradient-to-r hover:from-amber-400 hover:to-orange-500 hover:text-white active:scale-95 touch-manipulation"
                     aria-label={`Visit my ${social.name} profile`}
                   >
                     {getSocialIcon(social.icon)}
@@ -308,8 +308,8 @@ const ContactSection = () => {
                 : "opacity-0 translate-x-8"
             }`}
           >
-            <div className="bg-white rounded-2xl shadow-xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
                 Send Message
               </h3>
 
@@ -491,7 +491,7 @@ const ContactSection = () => {
                 <button
                   type="submit"
                   disabled={formState.isSubmitting}
-                  className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg ${
+                  className={`w-full py-3 sm:py-4 px-6 rounded-lg font-semibold text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:scale-95 touch-manipulation ${
                     formState.isSubmitting
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600"
@@ -501,7 +501,7 @@ const ContactSection = () => {
                   {formState.isSubmitting ? (
                     <span className="flex items-center justify-center">
                       <svg
-                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        className="animate-spin -ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -520,10 +520,12 @@ const ContactSection = () => {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      Sending Message...
+                      <span className="text-sm sm:text-base">
+                        Sending Message...
+                      </span>
                     </span>
                   ) : (
-                    "Send Message"
+                    <span className="text-sm sm:text-base">Send Message</span>
                   )}
                 </button>
               </form>
