@@ -88,20 +88,9 @@ export const observePerformance = () => {
 export const preloadCriticalResources = () => {
   if (typeof window === "undefined") return;
 
-  // Preload critical fonts
-  const fontPreloads = [
-    "/fonts/inter-var.woff2", // Adjust based on your font files
-  ];
-
-  fontPreloads.forEach((fontUrl) => {
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "font";
-    link.type = "font/woff2";
-    link.crossOrigin = "anonymous";
-    link.href = fontUrl;
-    document.head.appendChild(link);
-  });
+  // Note: Using Google Fonts (Poppins) loaded via Next.js font optimization
+  // No need to preload local font files as they don't exist
+  console.log("Font preloading: Using Google Fonts optimization");
 };
 
 // Optimize third-party scripts
@@ -233,36 +222,14 @@ export const measureCoreWebVitals = async () => {
 export const optimizeResourceLoading = () => {
   if (typeof window === "undefined") return;
 
-  // Preload critical resources
-  const criticalResources = [
-    { href: "/images/hero-bg.jpg", as: "image" },
-    {
-      href: "/fonts/poppins-regular.woff2",
-      as: "font",
-      type: "font/woff2",
-      crossOrigin: "anonymous",
-    },
-  ];
+  // Note: Only preload resources that actually exist
+  // Removed non-existent resources to prevent 404 errors:
+  // - /images/hero-bg.jpg (not needed - using 3D background)
+  // - /fonts/poppins-regular.woff2 (using Google Fonts)
+  // - /api/projects (using static data)
+  // - /images/project-thumbnails/ (using placeholder images)
 
-  criticalResources.forEach((resource) => {
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.href = resource.href;
-    link.as = resource.as;
-    if (resource.type) link.type = resource.type;
-    if (resource.crossOrigin) link.crossOrigin = resource.crossOrigin;
-    document.head.appendChild(link);
-  });
-
-  // Prefetch next page resources
-  const prefetchResources = ["/api/projects", "/images/project-thumbnails/"];
-
-  prefetchResources.forEach((href) => {
-    const link = document.createElement("link");
-    link.rel = "prefetch";
-    link.href = href;
-    document.head.appendChild(link);
-  });
+  console.log("Resource optimization: Using existing assets only");
 };
 
 // Image optimization utilities

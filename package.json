@@ -22,7 +22,9 @@
     "audit:deps": "npx depcheck",
     "audit:security": "npm audit",
     "audit:all": "npm run audit:security && npm run audit:deps && npm run audit:full && npm run audit:a11y",
-    "audit:report": "node scripts/generate-audit-report.mjs"
+    "audit:report": "node scripts/generate-audit-report.mjs",
+    "deploy:prepare": "node scripts/deploy.mjs",
+    "integration:test": "node scripts/integration-test.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.6.1",
