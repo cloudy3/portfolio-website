@@ -8,7 +8,21 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --watchAll=false",
+    "analyze": "ANALYZE=true npm run build",
+    "build:analyze": "cross-env ANALYZE=true npm run build",
+    "lighthouse": "lighthouse http://localhost:3000 --config-path=./lighthouse.config.js --output=html --output-path=./lighthouse-report.html --chrome-flags=\"--headless\"",
+    "lighthouse:mobile": "lighthouse http://localhost:3000 --config-path=./lighthouse.config.js --preset=perf --form-factor=mobile --output=html --output-path=./lighthouse-mobile-report.html --chrome-flags=\"--headless\"",
+    "perf:audit": "npm run build && npm run lighthouse && npm run lighthouse:mobile",
+    "perf:test": "node scripts/performance-test.mjs",
+    "audit:full": "node scripts/audit.mjs",
+    "audit:a11y": "node scripts/accessibility-test.mjs",
+    "audit:bundle": "npm run build:analyze",
+    "audit:deps": "npx depcheck",
+    "audit:security": "npm audit",
+    "audit:all": "npm run audit:security && npm run audit:deps && npm run audit:full && npm run audit:a11y",
+    "audit:report": "node scripts/generate-audit-report.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.6.1",
@@ -20,10 +34,13 @@
     "next": "15.4.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "three": "^0.179.1"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.10.2",
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.5.2",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",
@@ -32,11 +49,15 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.0.0",
+    "depcheck": "^1.4.7",
     "eslint": "^9",
     "eslint-config-next": "15.4.4",
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
+    "lighthouse": "^12.8.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "web-vitals": "^5.1.0"
   }
 }

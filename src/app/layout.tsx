@@ -4,6 +4,9 @@ import "./globals.css";
 import Navigation from "./_components/Navigation";
 import ScrollProvider from "./_components/ScrollProvider";
 import BrowserCompatibility from "./_components/BrowserCompatibility";
+import PerformanceMonitor from "./_components/PerformanceMonitor";
+import AccessibilityProvider from "./_components/AccessibilityProvider";
+import AccessibilityAuditor from "./_components/AccessibilityAuditor";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -16,8 +19,32 @@ export const metadata: Metadata = {
   title: "Jing Feng's Portfolio",
   description:
     "A modern portfolio website with Mont-Fort inspired design and smooth animations",
-  keywords: "portfolio, web development, design",
+  keywords: "portfolio, web development, design, accessibility, performance",
   authors: [{ name: "Cheah Jing Feng" }],
+  openGraph: {
+    title: "Jing Feng's Portfolio",
+    description:
+      "A modern portfolio website with Mont-Fort inspired design and smooth animations",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jing Feng's Portfolio",
+    description:
+      "A modern portfolio website with Mont-Fort inspired design and smooth animations",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export const viewport = {
@@ -35,13 +62,17 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} font-sans antialiased bg-white text-gray-900 overflow-x-hidden`}
       >
-        <BrowserCompatibility />
-        <Navigation />
-        <ScrollProvider>
-          <main id="main-content" className="relative" data-scroll-section>
-            {children}
-          </main>
-        </ScrollProvider>
+        <PerformanceMonitor />
+        <AccessibilityAuditor />
+        <AccessibilityProvider>
+          <BrowserCompatibility />
+          <Navigation />
+          <ScrollProvider>
+            <main id="main-content" className="relative" data-scroll-section>
+              {children}
+            </main>
+          </ScrollProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { Skill } from "@/types";
 
 // Sample skills data - this would typically come from a data source
@@ -138,17 +139,17 @@ const AboutSection = () => {
           >
             {/* Photo Placeholder */}
             <div className="relative">
-              <div className="aspect-square max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl shadow-lg overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gray-400 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                      <span className="text-2xl sm:text-3xl text-white">
-                        👤
-                      </span>
-                    </div>
-                    <p className="text-xs sm:text-sm">Professional Photo</p>
-                  </div>
-                </div>
+              <div className="aspect-square max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0 rounded-2xl shadow-lg overflow-hidden">
+                <Image
+                  src="/images/placeholder-avatar.svg"
+                  alt="Professional Photo Placeholder"
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjwvZXZnPgo="
+                />
               </div>
               {/* Decorative elements */}
               <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 w-6 h-6 sm:w-8 sm:h-8 bg-amber-400 rounded-full opacity-80"></div>

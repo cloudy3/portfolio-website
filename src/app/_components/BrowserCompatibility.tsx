@@ -6,7 +6,6 @@ import {
   isModernBrowser,
   shouldUseReducedMotion,
 } from "@/lib/browserDetection";
-import { addAccessibilityEnhancements } from "@/lib/accessibility";
 
 export default function BrowserCompatibility() {
   useEffect(() => {
@@ -26,8 +25,7 @@ export default function BrowserCompatibility() {
       document.documentElement.classList.add("prefers-reduced-motion");
     }
 
-    // Add accessibility enhancements
-    addAccessibilityEnhancements();
+    // Accessibility enhancements are now handled by AccessibilityProvider
 
     // Add polyfills for older browsers
     loadPolyfills();

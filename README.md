@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 How to Use The Audit System
 
-## Getting Started
+1. Run Regular Audits
 
-First, run the development server:
+```
+# Complete audit (recommended weekly)
+npm run audit:all
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Quick performance check
+npm run perf:audit
+
+# Accessibility-only check
+npm run audit:a11y
+
+# Bundle size analysis
+npm run audit:bundle
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Monitor During Development
+   Your site now automatically monitors performance in development mode:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Core Web Vitals are logged to console
+- Accessibility issues are flagged automatically
+- Bundle size warnings appear when thresholds are exceeded
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Production Monitoring
 
-## Learn More
+```
+# Test production build locally
+npm run build && npm run start
 
-To learn more about Next.js, take a look at the following resources:
+# Then run performance tests
+npm run perf:test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📊 Staying Optimized - Best Practices
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Weekly Maintenance
 
-## Deploy on Vercel
+1. Run the full audit suite:
+   `npm run audit:all`
+2. Review the generated reports:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Check AUDIT-REPORT.md for recommendations
+- Review Lighthouse reports for performance metrics
+- Check accessibility reports for compliance issues
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Before Each Deployment
+
+1. Performance check:
+   `npm run perf:audit`
+2. Security audit:
+   `npm run audit:security`
+3. Verify bundle size hasn't grown:
+   `npm run audit:bundle`
+
+### Monthly Deep Dive
+
+1. Dependency cleanup:
+   `npm run audit:deps`
+
+2. Test coverage review:
+   `npm run test:coverage`
+
+## 🎯 Key Metrics to Watch
+
+### Performance Targets
+
+- First Load JS: Keep under 500KB
+- LCP (Largest Contentful Paint): < 2.5s
+- CLS (Cumulative Layout Shift): < 0.1
+- FCP (First Contentful Paint): < 1.8s
+
+### Accessibility Targets
+
+- Color contrast: Minimum 4.5:1 ratio
+- Keyboard navigation: All interactive elements accessible
+- Screen reader compatibility: All content properly labeled
+
+## 🔧 Quick Fixes for Common Issues
+
+### If Bundle Size Grows
+
+```
+# Analyze what's causing the growth
+npm run build:analyze
+
+# Check for unused dependencies
+npm run audit:deps
+```
+
+### If Performance Degrades
+
+1. Check the console for Core Web Vitals warnings
+2. Review dynamic imports - ensure heavy components are lazy-loaded
+3. Optimize images - use Next.js Image component with proper sizing
+
+### If Accessibility Issues Arise
+
+- Check browser console for accessibility warnings
+- Run npm run audit:a11y for detailed reports
+- Test with keyboard navigation (Tab key)
