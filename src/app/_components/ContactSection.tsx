@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { ContactForm } from "@/types";
 import { VALIDATION, SOCIAL_LINKS } from "@/lib/constants";
 
@@ -150,8 +151,30 @@ const ContactSection = () => {
     }));
 
     try {
-      // Simulate form submission - in a real app, this would be an API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // EmailJS configuration - these will need to be set up in your EmailJS account
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+      // Check if EmailJS is properly configured
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error(
+          "EmailJS is not properly configured. Please check your environment variables."
+        );
+      }
+
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: "cjingfeng98@gmail.com",
+        reply_to: formData.email,
+      };
+
+      // Send email using EmailJS
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
       setFormState((prev) => ({
         ...prev,
@@ -174,13 +197,31 @@ const ContactSection = () => {
           isSubmitted: false,
         }));
       }, 5000);
-    } catch {
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+
+      let errorMessage = "Failed to send message. Please try again.";
+
+      // Provide more specific error messages based on the error type
+      if (error instanceof Error) {
+        if (error.message.includes("network")) {
+          errorMessage =
+            "Network error. Please check your internet connection and try again.";
+        } else if (error.message.includes("template")) {
+          errorMessage =
+            "Email service configuration error. Please try again later.";
+        } else if (error.message.includes("rate")) {
+          errorMessage =
+            "Too many requests. Please wait a moment and try again.";
+        }
+      }
+
       setFormState((prev) => ({
         ...prev,
         isSubmitting: false,
         errors: {
           ...prev.errors,
-          message: "Failed to send message. Please try again.",
+          message: errorMessage,
         },
       }));
     }
@@ -245,10 +286,10 @@ const ContactSection = () => {
                 <div>
                   <h4 className="font-semibold text-gray-900">Email</h4>
                   <a
-                    href="mailto:contact@example.com"
+                    href="mailto:cjingfeng98@gmail.com"
                     className="text-gray-600 hover:text-amber-500 transition-colors duration-300"
                   >
-                    contact@example.com
+                    cjingfeng98@gmail.com
                   </a>
                 </div>
               </div>

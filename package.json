@@ -27,6 +27,7 @@
     "integration:test": "node scripts/integration-test.mjs"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.2.0",
     "autoprefixer": "^10.4.21",
