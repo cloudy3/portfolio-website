@@ -51,8 +51,8 @@ describe("HeroSection", () => {
   it("renders hero content correctly", () => {
     render(<HeroSection />);
 
-    expect(screen.getByText("Creative")).toBeInTheDocument();
-    expect(screen.getByText("Developer")).toBeInTheDocument();
+    expect(screen.getByText("Hi,")).toBeInTheDocument();
+    expect(screen.getByText("I&apos;m Jing Feng")).toBeInTheDocument();
     expect(
       screen.getByText("Full-Stack Engineer & UI/UX Enthusiast")
     ).toBeInTheDocument();

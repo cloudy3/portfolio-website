@@ -52,31 +52,6 @@ export const sampleProjects: Project[] = [
   },
   {
     id: "project-3",
-    title: "Weather Mobile App",
-    description:
-      "A React Native weather application with location-based forecasts and beautiful animations.",
-    longDescription:
-      "A cross-platform mobile weather application built with React Native and Expo. Features include current weather conditions, 7-day forecasts, location-based weather data, interactive maps, weather alerts, and smooth animations. The app uses the OpenWeatherMap API and includes offline functionality for previously viewed locations.",
-    technologies: [
-      "React Native",
-      "Expo",
-      "TypeScript",
-      "Redux Toolkit",
-      "OpenWeatherMap API",
-    ],
-    category: "mobile",
-    images: [
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
-    ],
-    liveUrl: "https://expo.dev/@username/weather-app",
-    githubUrl: "https://github.com/username/weather-mobile-app",
-    featured: false,
-    completedAt: new Date("2023-09-10"),
-  },
-  {
-    id: "project-4",
     title: "Portfolio Website",
     description:
       "A modern portfolio website with 3D animations and smooth scrolling effects.",
@@ -96,98 +71,6 @@ export const sampleProjects: Project[] = [
     githubUrl: "https://github.com/username/portfolio-website",
     featured: true,
     completedAt: new Date("2024-02-28"),
-  },
-  {
-    id: "project-5",
-    title: "Desktop Code Editor",
-    description:
-      "A lightweight code editor built with Electron, featuring syntax highlighting and plugin support.",
-    longDescription:
-      "A cross-platform desktop code editor built with Electron and React. Features include syntax highlighting for multiple languages, file tree navigation, integrated terminal, plugin system, themes, and Git integration. The editor is designed to be lightweight and fast while providing essential development tools.",
-    technologies: [
-      "Electron",
-      "React",
-      "Monaco Editor",
-      "Node.js",
-      "TypeScript",
-    ],
-    category: "desktop",
-    images: ["/projects/placeholder.svg", "/projects/placeholder.svg"],
-    githubUrl: "https://github.com/username/code-editor",
-    featured: false,
-    completedAt: new Date("2023-07-15"),
-  },
-  {
-    id: "project-6",
-    title: "AI Chat Interface",
-    description:
-      "A modern chat interface for AI conversations with message history and customizable themes.",
-    longDescription:
-      "A sophisticated chat interface for AI conversations built with React and TypeScript. Features include real-time messaging, conversation history, message search, customizable themes, code syntax highlighting in messages, file uploads, and export functionality. The interface is designed to provide an excellent user experience for AI-powered conversations.",
-    technologies: [
-      "React",
-      "TypeScript",
-      "WebSocket",
-      "IndexedDB",
-      "Styled Components",
-    ],
-    category: "web",
-    images: [
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
-    ],
-    liveUrl: "https://aichat-demo.example.com",
-    githubUrl: "https://github.com/username/ai-chat-interface",
-    featured: false,
-    completedAt: new Date("2024-03-10"),
-  },
-  {
-    id: "project-7",
-    title: "Fitness Tracker API",
-    description:
-      "A RESTful API for fitness tracking with user authentication and workout analytics.",
-    longDescription:
-      "A comprehensive RESTful API for fitness tracking applications. Built with Node.js and Express, featuring user authentication with JWT, workout logging, exercise database, progress tracking, analytics, and social features. The API includes comprehensive documentation, rate limiting, and is deployed with Docker for scalability.",
-    technologies: [
-      "Node.js",
-      "Express",
-      "PostgreSQL",
-      "JWT",
-      "Docker",
-      "Swagger",
-    ],
-    category: "other",
-    images: ["/projects/placeholder.svg"],
-    githubUrl: "https://github.com/username/fitness-tracker-api",
-    featured: false,
-    completedAt: new Date("2023-12-05"),
-  },
-  {
-    id: "project-8",
-    title: "Real Estate Platform",
-    description:
-      "A comprehensive real estate platform with property listings, search, and virtual tours.",
-    longDescription:
-      "A full-featured real estate platform connecting buyers, sellers, and agents. Built with Next.js and featuring advanced property search, interactive maps, virtual tours, mortgage calculators, agent profiles, and CRM functionality. The platform includes user authentication, favorites, property comparisons, and mobile-responsive design.",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Mapbox",
-      "Prisma",
-      "PostgreSQL",
-      "AWS S3",
-    ],
-    category: "web",
-    images: [
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
-    ],
-    liveUrl: "https://realestate-demo.example.com",
-    githubUrl: "https://github.com/username/real-estate-platform",
-    featured: false,
-    completedAt: new Date("2023-10-22"),
   },
 ];
 

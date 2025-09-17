@@ -1,6 +1,6 @@
 // Design constants and configuration values
 
-// Color palette inspired by Mont-Fort design
+// Color palette
 export const COLORS = {
   primary: {
     navy: "#1a1a2e",
@@ -100,12 +100,15 @@ export const NAVIGATION_ITEMS = [
   { id: "contact", label: "Contact", href: "#contact" },
 ] as const;
 
-// Social media links (placeholder data)
+// Social media links
 export const SOCIAL_LINKS = [
-  { name: "GitHub", url: "https://github.com", icon: "github" },
-  { name: "LinkedIn", url: "https://linkedin.com", icon: "linkedin" },
-  { name: "Twitter", url: "https://twitter.com", icon: "twitter" },
-  { name: "Email", url: "mailto:contact@example.com", icon: "email" },
+  { name: "GitHub", url: "https://github.com/cloudy3", icon: "github" },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/in/jingfeng-cheah/",
+    icon: "linkedin",
+  },
+  { name: "Email", url: "mailto:cjingfeng98@gmail.com", icon: "email" },
 ] as const;
 
 // Project categories

@@ -108,7 +108,7 @@ const AboutSection = () => {
     // For now, we'll create a placeholder action
     const link = document.createElement("a");
     link.href = "/resume.pdf"; // This would be the actual path to your CV
-    link.download = "John_Doe_Resume.pdf";
+    link.download = "Cheah_Jing_Feng_Resume.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -187,10 +187,11 @@ const AboutSection = () => {
           >
             <div className="prose prose-lg max-w-none">
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                I&apos;m a passionate full-stack developer with over 5 years of
+                I&apos;m a passionate full-stack developer with over 2 years of
                 experience creating beautiful, functional, and user-centered
-                digital experiences. I specialize in modern web technologies and
-                have a keen eye for design and user experience.
+                digital experiences. I specialize in Flutter but dabble in
+                modern web technologies and have a keen eye for design and user
+                experience.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
@@ -202,9 +203,8 @@ const AboutSection = () => {
 
               <p className="text-lg text-gray-700 leading-relaxed mb-8">
                 When I&apos;m not coding, you can find me exploring new
-                technologies, contributing to open-source projects, or sharing
-                knowledge with the developer community. I believe in continuous
-                learning and staying current with industry trends.
+                technologies and watching videos on the latest tools. I believe
+                in continuous learning and staying current with industry trends.
               </p>
             </div>
 

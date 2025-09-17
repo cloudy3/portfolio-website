@@ -44,13 +44,20 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Set initial states
-      gsap.set(
-        [titleRef.current, subtitleRef.current, descriptionRef.current],
-        {
-          opacity: 0,
-          y: 50,
-        }
-      );
+      gsap.set(titleRef.current, {
+        opacity: 0,
+        y: 50,
+      });
+
+      gsap.set(subtitleRef.current, {
+        opacity: 0,
+        y: 80, // Start further down to account for spacing
+      });
+
+      gsap.set(descriptionRef.current, {
+        opacity: 0,
+        y: 50,
+      });
 
       gsap.set(ctaButtonsRef.current, {
         opacity: 0,
@@ -81,7 +88,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
             duration: DURATIONS.normal / 1000, // Convert to seconds
             ease: ANIMATION_CONFIG.ease,
           },
-          "-=0.3"
+          "-=0.2" // Delay it a bit more to create visual separation
         )
         // Animate description
         .to(
@@ -216,25 +223,28 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
       {/* Hero Content */}
       <div className="relative z-20 text-center px-4 sm:px-6 md:px-8 lg:px-12 max-w-5xl mx-auto pt-24 sm:pt-28 md:pt-32">
         {/* Main Title */}
-        <h1 ref={titleRef} className="text-white mb-4 sm:mb-6 leading-tight">
-          <span className="block">Creative</span>
+        <h1
+          ref={titleRef}
+          className="text-white mb-8 sm:mb-12 md:mb-16 leading-relaxed"
+        >
+          <span className="block">Hi,</span>
           <span className="block bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
-            Developer
+            I&apos;m Jing Feng
           </span>
         </h1>
 
         {/* Subtitle */}
         <h3
           ref={subtitleRef}
-          className="text-gray-300 mb-3 sm:mb-4 font-light px-2"
+          className="text-gray-100 mb-3 sm:mb-4 mt-12 sm:mt-16 md:mt-20 font-light px-2"
         >
-          Full-Stack Engineer & UI/UX Enthusiast
+          Software Engineer
         </h3>
 
         {/* Description */}
         <p
           ref={descriptionRef}
-          className="text-gray-400 mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2"
+          className="text-gray-200 mb-8 sm:mb-10 md:mb-12 mt-4 sm:mt-6 md:mt-8 max-w-3xl mx-auto leading-relaxed px-2"
         >
           Crafting exceptional digital experiences with modern technologies.
           Passionate about clean code, innovative design, and solving complex
