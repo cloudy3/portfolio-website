@@ -5,50 +5,44 @@ export const SKILLS_DATA: Skill[] = [
   {
     name: "React",
     category: "frontend",
-    level: 5,
+    level: 3,
     icon: "⚛️",
   },
   {
     name: "Next.js",
     category: "frontend",
-    level: 5,
+    level: 3,
     icon: "▲",
   },
   {
     name: "TypeScript",
     category: "frontend",
-    level: 4,
+    level: 3,
     icon: "📘",
   },
   {
     name: "JavaScript",
     category: "frontend",
-    level: 5,
+    level: 3,
     icon: "🟨",
   },
   {
     name: "HTML5",
     category: "frontend",
-    level: 5,
+    level: 3,
     icon: "🌐",
   },
   {
     name: "CSS3",
     category: "frontend",
-    level: 5,
+    level: 3,
     icon: "🎨",
   },
   {
     name: "Tailwind CSS",
     category: "frontend",
-    level: 4,
+    level: 3,
     icon: "💨",
-  },
-  {
-    name: "SASS/SCSS",
-    category: "frontend",
-    level: 4,
-    icon: "💅",
   },
   {
     name: "Vue.js",
@@ -61,19 +55,19 @@ export const SKILLS_DATA: Skill[] = [
   {
     name: "Node.js",
     category: "backend",
-    level: 4,
+    level: 3,
     icon: "🟢",
   },
   {
     name: "Python",
     category: "backend",
-    level: 4,
+    level: 5,
     icon: "🐍",
   },
   {
     name: "Express.js",
     category: "backend",
-    level: 4,
+    level: 3,
     icon: "🚂",
   },
   {
@@ -89,15 +83,9 @@ export const SKILLS_DATA: Skill[] = [
     icon: "🍃",
   },
   {
-    name: "GraphQL",
-    category: "backend",
-    level: 3,
-    icon: "🔗",
-  },
-  {
     name: "REST APIs",
     category: "backend",
-    level: 4,
+    level: 5,
     icon: "🔌",
   },
 
@@ -105,7 +93,7 @@ export const SKILLS_DATA: Skill[] = [
   {
     name: "Git",
     category: "tools",
-    level: 4,
+    level: 5,
     icon: "📝",
   },
   {
@@ -115,40 +103,10 @@ export const SKILLS_DATA: Skill[] = [
     icon: "🐳",
   },
   {
-    name: "AWS",
-    category: "tools",
-    level: 3,
-    icon: "☁️",
-  },
-  {
-    name: "Vercel",
-    category: "tools",
-    level: 4,
-    icon: "▲",
-  },
-  {
-    name: "Webpack",
-    category: "tools",
-    level: 3,
-    icon: "📦",
-  },
-  {
-    name: "Vite",
-    category: "tools",
-    level: 4,
-    icon: "⚡",
-  },
-  {
     name: "Jest",
     category: "tools",
-    level: 4,
-    icon: "🃏",
-  },
-  {
-    name: "Cypress",
-    category: "tools",
     level: 3,
-    icon: "🌲",
+    icon: "🃏",
   },
 
   // Design
@@ -159,15 +117,9 @@ export const SKILLS_DATA: Skill[] = [
     icon: "🎨",
   },
   {
-    name: "Adobe XD",
-    category: "design",
-    level: 3,
-    icon: "🎭",
-  },
-  {
     name: "UI/UX Design",
     category: "design",
-    level: 4,
+    level: 5,
     icon: "✨",
   },
   {
