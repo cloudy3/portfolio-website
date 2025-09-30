@@ -72,8 +72,6 @@ export const CERTIFICATIONS_DATA: Certification[] = [
     id: "cert-1",
     name: "The Complete 2024 Web Development Bootcamp",
     issuer: "Udemy",
-    issueDate: new Date("2023-08-15"),
-    expiryDate: new Date("2026-08-15"),
     credentialId: "AWS-SAA-123456",
     logo: "☁️",
   },
@@ -81,8 +79,6 @@ export const CERTIFICATIONS_DATA: Certification[] = [
     id: "cert-2",
     name: "React Developer Certification",
     issuer: "Meta",
-    issueDate: new Date("2022-11-20"),
-    expiryDate: undefined,
     credentialId: "META-REACT-789012",
     logo: "⚛️",
   },
@@ -90,8 +86,6 @@ export const CERTIFICATIONS_DATA: Certification[] = [
     id: "cert-3",
     name: "Google Analytics Certified",
     issuer: "Google",
-    issueDate: new Date("2023-03-10"),
-    expiryDate: new Date("2024-03-10"),
     credentialId: "GOOGLE-GA-345678",
     logo: "📊",
   },
@@ -108,13 +102,16 @@ export const getPastExperiences = () => {
 };
 
 export const getTotalExperienceYears = () => {
-  const firstJob = EXPERIENCE_DATA.reduce((earliest, exp) =>
-    exp.startDate < earliest.startDate ? exp : earliest
-  );
+  const totalMonths = EXPERIENCE_DATA.reduce((total, exp) => {
+    const startDate = exp.startDate;
+    const endDate = exp.endDate || new Date(); // Use current date if still employed
 
-  const now = new Date();
-  const diffTime = Math.abs(now.getTime() - firstJob.startDate.getTime());
-  const diffYears = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 365));
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const months = diffTime / (1000 * 60 * 60 * 24 * 30.44); // Average days per month
 
-  return diffYears;
+    return total + months;
+  }, 0);
+
+  const years = totalMonths / 12;
+  return Math.round(years * 10) / 10; // Round to 1 decimal place
 };

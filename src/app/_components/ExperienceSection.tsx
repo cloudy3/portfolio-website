@@ -283,20 +283,6 @@ const CertificationCard = ({
 
     return () => observer.disconnect();
   }, []);
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  const isExpired =
-    certification.expiryDate && new Date() > certification.expiryDate;
-  const isExpiringSoon =
-    certification.expiryDate &&
-    new Date() < certification.expiryDate &&
-    certification.expiryDate.getTime() - new Date().getTime() <
-      90 * 24 * 60 * 60 * 1000; // 90 days
 
   return (
     <div
@@ -320,31 +306,9 @@ const CertificationCard = ({
             </h4>
           </div>
         </div>
-
-        {!isExpired && (
-          <span
-            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-              isExpiringSoon
-                ? "bg-yellow-100 text-yellow-800"
-                : "bg-green-100 text-green-800"
-            }`}
-          >
-            {isExpiringSoon ? "Expiring Soon" : "Valid"}
-          </span>
-        )}
-
-        {isExpired && (
-          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-            Expired
-          </span>
-        )}
       </div>
 
-      <div className="text-xs text-gray-600 space-y-1">
-        <div>Issued: {formatDate(certification.issueDate)}</div>
-        {certification.expiryDate && (
-          <div>Expires: {formatDate(certification.expiryDate)}</div>
-        )}
+      <div className="text-xs text-gray-600">
         <div className="font-mono text-xs text-gray-500">
           ID: {certification.credentialId}
         </div>

@@ -160,7 +160,7 @@ const AboutSection = () => {
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
                 <div className="text-xl sm:text-2xl font-bold text-gray-900">
-                  5+
+                  2+
                 </div>
                 <div className="text-xs sm:text-sm text-gray-600">
                   Years Experience

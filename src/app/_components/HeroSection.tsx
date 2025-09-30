@@ -2,16 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ThreeScene from "./ThreeScene";
 import { ANIMATION_CONFIG } from "@/lib/animations";
 import { DURATIONS } from "@/lib/constants";
-
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
-}
 
 interface HeroSectionProps {
   className?: string;
@@ -25,18 +18,40 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
   const ctaButtonsRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
-  // Smooth scroll to section function
+  // Simple scroll to section function
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
+    console.log("Scrolling to section:", sectionId, "Element found:", element);
+
     if (element) {
-      gsap.to(window, {
-        duration: 1.2,
-        scrollTo: {
-          y: element,
-          offsetY: 80, // Account for fixed navigation
-        },
-        ease: "power2.inOut",
-      });
+      // Calculate the target position
+      const elementTop = element.offsetTop;
+      const offset = 80; // Account for fixed navigation
+      const targetPosition = Math.max(0, elementTop - offset);
+
+      console.log(
+        "Element offsetTop:",
+        elementTop,
+        "Target position:",
+        targetPosition
+      );
+
+      // Use native smooth scroll
+      try {
+        window.scrollTo({
+          top: targetPosition,
+          behavior: "smooth",
+        });
+        console.log("Using native smooth scroll");
+      } catch (error) {
+        console.error("Native scroll failed, trying scrollIntoView:", error);
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      console.error("Element not found for section:", sectionId);
     }
   };
 
@@ -124,72 +139,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           "-=0.1"
         );
 
-      // Zoom-out scroll effect
-      gsap.to(heroRef.current, {
-        scale: 0.8,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-
-      // Parallax effect on scroll for content
-      gsap.to(
-        [
-          titleRef.current,
-          subtitleRef.current,
-          descriptionRef.current,
-          ctaButtonsRef.current,
-        ],
-        {
-          yPercent: -30,
-          opacity: 0.3,
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        }
-      );
-
-      // Fade out scroll indicator earlier
-      gsap.to(scrollIndicatorRef.current, {
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "top -20%",
-          scrub: 1,
-        },
-      });
-
-      // Parallax effect on scroll for content
-      gsap.to(
-        [
-          titleRef.current,
-          subtitleRef.current,
-          descriptionRef.current,
-          ctaButtonsRef.current,
-        ],
-        {
-          yPercent: -30,
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        }
-      );
-
-      // Floating animation for scroll indicator
+      // Simple floating animation for scroll indicator (no ScrollTrigger)
       gsap.to(scrollIndicatorRef.current, {
         y: 10,
         duration: 1.5,
@@ -197,6 +147,9 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         yoyo: true,
         repeat: -1,
       });
+
+      // Removed all ScrollTrigger animations to prevent scroll conflicts
+      // This allows for normal, uninterrupted scrolling behavior
     }, heroRef);
 
     return () => ctx.revert();
@@ -257,7 +210,11 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           className="flex flex-col xs:flex-row gap-3 sm:gap-4 md:gap-6 justify-center items-center mb-12 sm:mb-14 md:mb-16 px-2"
         >
           <button
-            onClick={() => scrollToSection("projects")}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("View My Work button clicked");
+              scrollToSection("projects");
+            }}
             className="group relative w-full xs:w-auto min-w-[160px] px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-900 font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/25 active:scale-95 touch-manipulation"
           >
             <span className="relative z-10">View My Work</span>
@@ -265,7 +222,11 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           </button>
 
           <button
-            onClick={() => scrollToSection("contact")}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("Get In Touch button clicked");
+              scrollToSection("contact");
+            }}
             className="group w-full xs:w-auto min-w-[160px] px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/30 text-white font-semibold rounded-lg backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10 active:scale-95 touch-manipulation"
           >
             <span className="group-hover:text-amber-300 transition-colors duration-300">
@@ -278,7 +239,11 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
         <div
           ref={scrollIndicatorRef}
           className="flex flex-col items-center cursor-pointer touch-manipulation"
-          onClick={() => scrollToSection("about")}
+          onClick={(e) => {
+            e.preventDefault();
+            console.log("Scroll indicator clicked");
+            scrollToSection("about");
+          }}
         >
           <span className="text-gray-400 text-xs sm:text-sm mb-2 hover:text-amber-400 transition-colors duration-300">
             Scroll to explore

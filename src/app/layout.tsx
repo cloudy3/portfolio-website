@@ -68,7 +68,7 @@ export default function RootLayout({
           <BrowserCompatibility />
           <Navigation />
           <ScrollProvider>
-            <main id="main-content" className="relative" data-scroll-section>
+            <main id="main-content" className="relative">
               {children}
             </main>
           </ScrollProvider>
