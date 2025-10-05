@@ -1,5 +1,5 @@
 // Tests for ThreeScene WebGL detection functionality
-import { detectWebGLSupport } from "../ThreeScene";
+import { detectWebGLSupport } from "../shared/ThreeScene";
 
 // Mock Canvas and WebGL context
 const mockGetContext = jest.fn();

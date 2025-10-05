@@ -77,10 +77,10 @@ describe("Project Data Management", () => {
     });
 
     it("should search projects by description", () => {
-      const result = searchProjects(sampleProjects, "weather");
+      const result = searchProjects(sampleProjects, "e-commerce");
       expect(
         result.some((project) =>
-          project.description.toLowerCase().includes("weather")
+          project.description.toLowerCase().includes("e-commerce")
         )
       ).toBe(true);
     });

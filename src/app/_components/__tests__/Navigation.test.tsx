@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Navigation from "../Navigation";
+import Navigation from "../shared/Navigation";
 
 // Mock scrollIntoView
 const mockScrollIntoView = jest.fn();

@@ -26,7 +26,7 @@ jest.mock("gsap/ScrollTrigger", () => ({
 }));
 
 // Mock ThreeScene component
-jest.mock("../ThreeScene", () => {
+jest.mock("../shared/ThreeScene", () => {
   return function MockThreeScene({ className }: { className?: string }) {
     return (
       <div data-testid="three-scene" className={className}>
