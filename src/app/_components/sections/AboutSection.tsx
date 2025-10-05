@@ -3,25 +3,39 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Skill } from "@/types";
+// Professional profile data is now embedded in the component for a more personal touch
 
-// Sample skills data - this would typically come from a data source
+// Professional skills data from Jing Feng's profile
 const SKILLS_DATA: Skill[] = [
-  { name: "React", category: "frontend", level: 5, icon: "⚛️" },
-  { name: "Next.js", category: "frontend", level: 5, icon: "▲" },
-  { name: "TypeScript", category: "frontend", level: 4, icon: "📘" },
-  { name: "Tailwind CSS", category: "frontend", level: 5, icon: "🎨" },
-  { name: "Node.js", category: "backend", level: 4, icon: "🟢" },
-  { name: "Python", category: "backend", level: 3, icon: "🐍" },
-  { name: "Git", category: "tools", level: 5, icon: "📚" },
-  { name: "Figma", category: "design", level: 4, icon: "🎯" },
+  // Top skills from professional experience
+  { name: "Flutter", category: "mobile", proficiency: 5, icon: "📱" },
+  { name: "Python", category: "backend", proficiency: 5, icon: "🐍" },
+  { name: "Google Cloud", category: "cloud", proficiency: 5, icon: "☁️" },
+  { name: "Firebase", category: "cloud", proficiency: 5, icon: "🔥" },
+  { name: "Dart", category: "mobile", proficiency: 5, icon: "🎯" },
+  { name: "TypeScript", category: "frontend", proficiency: 4, icon: "📘" },
+  { name: "React", category: "frontend", proficiency: 4, icon: "⚛️" },
+  { name: "Docker", category: "devops", proficiency: 4, icon: "🐳" },
+  { name: "PostgreSQL", category: "database", proficiency: 4, icon: "🐘" },
+  { name: "Node.js", category: "backend", proficiency: 4, icon: "🟢" },
+  { name: "Angular", category: "frontend", proficiency: 3, icon: "🅰️" },
+  { name: "Java", category: "backend", proficiency: 4, icon: "☕" },
+  // Technologies from this portfolio project
+  { name: "Next.js", category: "frontend", proficiency: 3, icon: "▲" },
+  { name: "Tailwind CSS", category: "frontend", proficiency: 3, icon: "🎨" },
+  { name: "Three.js", category: "frontend", proficiency: 3, icon: "🎮" },
+  { name: "GSAP", category: "frontend", proficiency: 3, icon: "✨" },
+  { name: "Jest", category: "testing", proficiency: 3, icon: "🧪" },
 ];
 
 const SKILL_CATEGORIES = {
+  mobile: "Mobile",
   frontend: "Frontend",
   backend: "Backend",
-  tools: "Tools",
-  design: "Design",
-  other: "Other",
+  cloud: "Cloud",
+  database: "Database",
+  devops: "DevOps",
+  testing: "Testing",
 } as const;
 
 interface SkillProgressBarProps {
@@ -30,7 +44,7 @@ interface SkillProgressBarProps {
 }
 
 const SkillProgressBar = ({ skill, index }: SkillProgressBarProps) => {
-  const percentage = (skill.level / 5) * 100;
+  const percentage = (skill.proficiency / 5) * 100;
 
   return (
     <div
@@ -43,7 +57,7 @@ const SkillProgressBar = ({ skill, index }: SkillProgressBarProps) => {
           <span className="font-medium text-gray-900">{skill.name}</span>
         </div>
         <span className="text-sm text-gray-600 font-medium">
-          {skill.level}/5
+          {skill.proficiency}/5
         </span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -160,18 +174,18 @@ const AboutSection = () => {
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
                 <div className="text-xl sm:text-2xl font-bold text-gray-900">
-                  2+
+                  ∞
                 </div>
                 <div className="text-xs sm:text-sm text-gray-600">
-                  Years Experience
+                  Cups of Coffee
                 </div>
               </div>
               <div className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg">
                 <div className="text-xl sm:text-2xl font-bold text-gray-900">
-                  50+
+                  96%
                 </div>
                 <div className="text-xs sm:text-sm text-gray-600">
-                  Projects Completed
+                  Problems Solved
                 </div>
               </div>
             </div>
@@ -187,24 +201,28 @@ const AboutSection = () => {
           >
             <div className="prose prose-lg max-w-none">
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                I&apos;m a passionate full-stack developer with over 2 years of
-                experience creating beautiful, functional, and user-centered
-                digital experiences. I specialize in Flutter but dabble in
-                modern web technologies and have a keen eye for design and user
-                experience.
+                Hey there! I&apos;m the kind of developer who gets genuinely
+                excited about turning coffee into code and complex problems into
+                elegant solutions. While others see bugs, I see puzzles waiting
+                to be solved.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                My journey in web development started with a curiosity about how
-                websites work, and has evolved into a deep appreciation for
-                clean code, elegant solutions, and the intersection of
-                technology and creativity.
+                Currently, I&apos;m making waves in the maritime industry (pun
+                intended) by building cloud-native apps that help ships navigate
+                the digital ocean. My superpower? Taking ideas from
+                &ldquo;wouldn&apos;t it be cool if...&rdquo; to &ldquo;wow, this
+                actually works!&rdquo; – like that time I helped cut storage
+                costs by 96% with some clever image optimization magic.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                When I&apos;m not coding, you can find me exploring new
-                technologies and watching videos on the latest tools. I believe
-                in continuous learning and staying current with industry trends.
+                When I&apos;m not wrestling with <strong>Flutter</strong>{" "}
+                widgets or architecting <strong>Python</strong> backends on{" "}
+                <strong>Google Cloud</strong>, you&apos;ll find me diving deep
+                into the latest tech trends (because staying curious is half the
+                job, right?). I believe the best code is like a good joke – if
+                you have to explain it, it probably needs refactoring.
               </p>
             </div>
 
@@ -235,9 +253,10 @@ const AboutSection = () => {
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <h3 className="text-gray-900 mb-4">Skills & Expertise</h3>
+            <h3 className="text-gray-900 mb-4">My Digital Toolkit</h3>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto text-center">
-              Here are some of the technologies and tools I work with regularly
+              The technologies I&apos;ve befriended over the years (some more
+              cooperative than others)
             </p>
           </div>
 

@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import ThreeScene from "../shared/ThreeScene";
 import { ANIMATION_CONFIG } from "@/lib/animations";
 import { DURATIONS } from "@/lib/constants";
+import { JING_FENG_PROFILE } from "@/lib/data/professional-profile";
 
 interface HeroSectionProps {
   className?: string;
@@ -191,7 +192,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           ref={subtitleRef}
           className="text-gray-100 mb-3 sm:mb-4 mt-12 sm:mt-16 md:mt-20 font-light px-2"
         >
-          Software Engineer
+          {JING_FENG_PROFILE.title}
         </h3>
 
         {/* Description */}
@@ -199,9 +200,7 @@ export default function HeroSection({ className = "" }: HeroSectionProps) {
           ref={descriptionRef}
           className="text-gray-200 mb-8 sm:mb-10 md:mb-12 mt-4 sm:mt-6 md:mt-8 max-w-3xl mx-auto leading-relaxed px-2"
         >
-          Crafting exceptional digital experiences with modern technologies.
-          Passionate about clean code, innovative design, and solving complex
-          problems.
+          {JING_FENG_PROFILE.summary}
         </p>
 
         {/* Call-to-Action Buttons */}
