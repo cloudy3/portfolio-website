@@ -2,7 +2,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { ProjectsSection } from "../ProjectsSection";
+import { ProjectsSection } from "../sections/ProjectsSection";
 import { Project } from "@/types";
 
 // Mock GSAP and animations

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navigation from "./_components/Navigation";
-import ScrollProvider from "./_components/ScrollProvider";
-import BrowserCompatibility from "./_components/BrowserCompatibility";
-import PerformanceMonitor from "./_components/PerformanceMonitor";
-import AccessibilityProvider from "./_components/AccessibilityProvider";
-import AccessibilityAuditor from "./_components/AccessibilityAuditor";
+import Navigation from "./_components/shared/Navigation";
+import ScrollProvider from "./_components/shared/ScrollProvider";
+import BrowserCompatibility from "./_components/ui/BrowserCompatibility";
+import PerformanceMonitor from "./_components/shared/PerformanceMonitor";
+import AccessibilityProvider from "./_components/shared/AccessibilityProvider";
+import AccessibilityAuditor from "./_components/ui/AccessibilityAuditor";
 
 const poppins = Poppins({
   subsets: ["latin"],

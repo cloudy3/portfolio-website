@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import HeroSection from "../HeroSection";
+import HeroSection from "../sections/HeroSection";
 
 // Mock GSAP
 jest.mock("gsap", () => ({

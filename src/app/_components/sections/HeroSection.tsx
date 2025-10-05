@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import ThreeScene from "./ThreeScene";
+import ThreeScene from "../shared/ThreeScene";
 import { ANIMATION_CONFIG } from "@/lib/animations";
 import { DURATIONS } from "@/lib/constants";
 

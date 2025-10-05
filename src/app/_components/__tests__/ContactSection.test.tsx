@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import ContactSection from "../ContactSection";
+import ContactSection from "../sections/ContactSection";
 
 // Mock IntersectionObserver
 const mockIntersectionObserver = jest.fn();
