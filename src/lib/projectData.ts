@@ -1,76 +1,121 @@
 import { Project } from "@/types";
 
-// Sample project data following the Project interface
+// Jing Feng's real project data reflecting professional experience and technology stack
 export const sampleProjects: Project[] = [
   {
-    id: "project-1",
-    title: "E-Commerce Platform",
+    id: "diving-application",
+    title: "Diving Application for Maritime Services",
     description:
-      "A full-stack e-commerce platform with modern design, payment integration, and admin dashboard.",
+      "Full-stack Flutter application for dive marine services with real-time data synchronization and offline capabilities.",
     longDescription:
-      "A comprehensive e-commerce solution built with Next.js and TypeScript. Features include user authentication, product catalog, shopping cart, payment processing with Stripe, order management, and an admin dashboard for inventory management. The platform is fully responsive and optimized for performance with server-side rendering and static generation.",
+      "Led the complete end-to-end development of a comprehensive diving application for Dive Marine Services. The application digitizes manual vessel inspection procedures, provides real-time reporting capabilities, and supports offline functionality for field divers. Built with Flutter for cross-platform compatibility and integrated with Google Cloud services for scalable backend operations. Successfully deployed to Singapore team and initiated rollout to European teams.",
     technologies: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Stripe",
-      "PostgreSQL",
-      "Prisma",
+      "Flutter",
+      "Dart",
+      "Firebase",
+      "Firestore",
+      "Google Cloud",
+      "GetX",
+      "Hive",
+      "Cloud Functions",
     ],
-    category: "web",
+    category: "mobile",
     images: [
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
-      "/projects/placeholder.svg",
+      "/projects/diving-app-1.svg",
+      "/projects/diving-app-2.svg",
+      "/projects/diving-app-3.svg",
     ],
-    liveUrl: "https://ecommerce-demo.example.com",
-    githubUrl: "https://github.com/username/ecommerce-platform",
     featured: true,
     completedAt: new Date("2024-01-15"),
   },
   {
-    id: "project-2",
-    title: "Task Management App",
+    id: "vessel-tracking-system",
+    title: "Global Vessel Telemetry System",
     description:
-      "A collaborative task management application with real-time updates and team collaboration features.",
+      "Real-time vessel tracking system built on Google Compute Engine with interactive dashboard for global maritime operations.",
     longDescription:
-      "A modern task management application inspired by tools like Trello and Asana. Built with React and Node.js, featuring real-time collaboration through WebSockets, drag-and-drop functionality, team management, project organization, and detailed analytics. The app includes user authentication, role-based permissions, and mobile-responsive design.",
+      "Developed a comprehensive vessel tracking system that ingests global vessel telemetry data via WebSocket connections. The system is deployed on Google Compute Engine and features an interactive live-tracking dashboard that visualizes ship positions in real-time. Implemented region-specific Cloud Storage and Firestore instances across Asia and Europe, resulting in 50% reduction in data-retrieval latency. The system handles large-scale data processing and provides critical operational insights for maritime clients.",
     technologies: [
-      "React",
-      "Node.js",
-      "Socket.io",
-      "MongoDB",
-      "Express",
-      "Material-UI",
+      "Python",
+      "Google Compute Engine",
+      "WebSocket",
+      "Firestore",
+      "Cloud Storage",
+      "JavaScript",
+      "Real-time Dashboard",
     ],
     category: "web",
-    images: ["/projects/placeholder.svg", "/projects/placeholder.svg"],
-    liveUrl: "https://taskmanager-demo.example.com",
-    githubUrl: "https://github.com/username/task-management-app",
+    images: [
+      "/projects/vessel-tracking-1.svg",
+      "/projects/vessel-tracking-2.svg",
+    ],
     featured: true,
-    completedAt: new Date("2023-11-20"),
+    completedAt: new Date("2023-12-20"),
   },
   {
-    id: "project-3",
-    title: "Portfolio Website",
+    id: "nea-energy-app",
+    title: "NEA Energy Management Mobile App",
     description:
-      "A modern portfolio website with 3D animations and smooth scrolling effects.",
+      "Flutter mobile application with push notifications for energy consumption tracking, adopted by the National Environment Agency.",
     longDescription:
-      "A personal portfolio website showcasing projects and skills with modern web technologies. Built with Next.js 15 and featuring Three.js 3D animations, GSAP scroll animations, responsive design, and optimized performance. The site includes sections for projects, skills, experience, and contact information with a clean, professional design inspired by award-winning websites.",
+      "Delivered an end-to-end Flutter mobile application with Firebase Cloud Messaging (FCM) push notifications for energy management and consumption tracking. The application was successfully adopted by the National Environment Agency (NEA) and other prominent organizations. Built during internship at Resync, the app enables smart tracking and visualization of energy consumption, providing users with critical data for optimization and cost efficiency. Features include real-time data synchronization, offline capabilities, and comprehensive analytics dashboard.",
+    technologies: [
+      "Flutter",
+      "Dart",
+      "Firebase",
+      "FCM",
+      "Python",
+      "Docker",
+      "PostgreSQL",
+    ],
+    category: "mobile",
+    images: ["/projects/nea-app-1.svg", "/projects/nea-app-2.svg"],
+    featured: true,
+    completedAt: new Date("2021-12-15"),
+  },
+  {
+    id: "portfolio-website",
+    title: "Professional Portfolio Website",
+    description:
+      "Modern portfolio website built with Next.js, featuring 3D animations, responsive design, and optimized performance.",
+    longDescription:
+      "Built a responsive portfolio using Next.js and Tailwind CSS (with AI assistance) featuring Server-Side Rendering (SSR) for SEO optimization, dynamic project pages, and CI/CD deployment pipeline to Vercel. The website showcases professional experience, technical skills, and project portfolio with modern web technologies. Includes Three.js 3D animations, GSAP scroll animations, and maintains excellent performance metrics with Core Web Vitals compliance. The site is fully accessible and optimized for all device sizes.",
     technologies: [
       "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
       "Three.js",
       "GSAP",
-      "Tailwind CSS",
-      "TypeScript",
       "Vercel",
+      "AI Assistance",
     ],
     category: "web",
-    images: ["/projects/placeholder.svg", "/projects/placeholder.svg"],
-    liveUrl: "https://portfolio.example.com",
-    githubUrl: "https://github.com/username/portfolio-website",
+    images: ["/projects/portfolio-1.svg", "/projects/portfolio-2.svg"],
+    liveUrl: "https://portfolio.jingfeng.dev",
+    githubUrl: "https://github.com/jingfeng/portfolio-website",
     featured: true,
     completedAt: new Date("2024-02-28"),
+  },
+  {
+    id: "image-processing-api",
+    title: "Cloud-Native Image Processing API",
+    description:
+      "Python Flask API deployed on Google Cloud Run for large-scale image processing with automated compression.",
+    longDescription:
+      "Designed and implemented a Python Flask API deployed on Google Cloud Run for large-scale image processing operations. The system includes automated image compression using Firebase Extensions, resulting in 96% reduction in storage costs. Integrated with Microsoft OneDrive Picker API to accelerate client upload workflows by 60% for large image batches. The API handles long-running tasks efficiently and includes comprehensive error handling and monitoring. Successfully streamlined CI/CD processes and improved overall system performance.",
+    technologies: [
+      "Python",
+      "Flask",
+      "Google Cloud Run",
+      "Firebase Extensions",
+      "Cloud Storage",
+      "OneDrive API",
+      "Docker",
+    ],
+    category: "web",
+    images: ["/projects/image-api-1.svg", "/projects/image-api-2.svg"],
+    featured: false,
+    completedAt: new Date("2023-10-10"),
   },
 ];
 
@@ -211,4 +256,52 @@ export const getRecentProjects = (
   return projects.filter(
     (project) => new Date(project.completedAt) >= cutoffDate
   );
+};
+
+/**
+ * Get projects by technology stack alignment with professional experience
+ */
+export const getProjectsByTechStack = (
+  projects: Project[]
+): {
+  flutter: Project[];
+  python: Project[];
+  googleCloud: Project[];
+  webDevelopment: Project[];
+} => {
+  return {
+    flutter: projects.filter((p) =>
+      p.technologies.some(
+        (tech) =>
+          tech.toLowerCase().includes("flutter") ||
+          tech.toLowerCase().includes("dart")
+      )
+    ),
+    python: projects.filter((p) =>
+      p.technologies.some(
+        (tech) =>
+          tech.toLowerCase().includes("python") ||
+          tech.toLowerCase().includes("flask")
+      )
+    ),
+    googleCloud: projects.filter((p) =>
+      p.technologies.some(
+        (tech) =>
+          tech.toLowerCase().includes("google cloud") ||
+          tech.toLowerCase().includes("firebase") ||
+          tech.toLowerCase().includes("firestore") ||
+          tech.toLowerCase().includes("cloud run") ||
+          tech.toLowerCase().includes("compute engine")
+      )
+    ),
+    webDevelopment: projects.filter((p) =>
+      p.technologies.some(
+        (tech) =>
+          tech.toLowerCase().includes("next.js") ||
+          tech.toLowerCase().includes("react") ||
+          tech.toLowerCase().includes("angular") ||
+          tech.toLowerCase().includes("typescript")
+      )
+    ),
+  };
 };

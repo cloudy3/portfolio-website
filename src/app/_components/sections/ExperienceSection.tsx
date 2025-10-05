@@ -157,13 +157,25 @@ const ExperienceCard = ({
             <h5 className="text-sm font-semibold text-gray-900 mb-3">
               Key Achievements:
             </h5>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {experience.achievements.map((achievement, index) => (
                 <li key={index} className="flex items-start">
                   <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span className="text-gray-700 text-sm leading-relaxed">
-                    {achievement}
-                  </span>
+                  <div className="text-gray-700 text-sm leading-relaxed">
+                    <div className="font-medium mb-1">
+                      {achievement.description}
+                    </div>
+                    {achievement.impact && (
+                      <div className="text-gray-600 text-xs mb-1">
+                        Impact: {achievement.impact}
+                      </div>
+                    )}
+                    {achievement.metrics && (
+                      <div className="text-blue-600 text-xs font-medium">
+                        📊 {achievement.metrics}
+                      </div>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>

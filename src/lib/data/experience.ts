@@ -2,49 +2,99 @@ import { Experience, Education, Certification } from "@/types";
 
 export const EXPERIENCE_DATA: Experience[] = [
   {
-    id: "exp-1",
+    id: "bss-2023",
     company: "Bernhard Schulte Singapore Holdings",
-    position: "Software Engineer",
+    position: "Software Engineer (Full Stack)",
+    location: "Singapore",
     startDate: new Date("2023-07-01"),
     endDate: undefined, // Current position
     description:
-      "Full-stack developer who designs and deploys scalable web and mobile applications that streamline critical operations for international subsidiaries. My work includes developing dynamic websites that significantly improved the diving report process across four countries and creating an end-to-end mobile app that digitized manual vessel inspection procedures for field divers.",
+      "Leading full-stack development of cloud-native applications for maritime industry",
+    achievements: [
+      {
+        description:
+          "Designed and launched a Diving Application for Dive Marine Services",
+        impact:
+          "Led full end-to-end development, completed Singapore team onboarding, and initiated rollout to European teams",
+      },
+      {
+        description:
+          "Deployed a Compute Engine service to ingest global vessel telemetry via websocket",
+        impact: "Built an interactive live-tracking dashboard",
+      },
+      {
+        description: "Automated image compression via Firebase Extensions",
+        impact: "Cutting storage costs by 96%",
+        metrics: "96% cost reduction",
+      },
+      {
+        description:
+          "Deployed region-specific Cloud Storage / Firestore instances (Asia & Europe)",
+        impact: "Reducing data-retrieval latency by ~50%",
+        metrics: "50% latency improvement",
+      },
+      {
+        description: "Integrated Microsoft OneDrive Picker API",
+        impact: "Accelerating client upload workflows by 60%",
+        metrics: "60% workflow acceleration",
+      },
+    ],
     technologies: [
       "Flutter",
-      "Google Cloud Platform",
       "Python",
-      "Microservices",
-      "Web and Mobile Development",
-      "Microsoft Azure",
-    ],
-    achievements: [
-      "Built and deployed vessel-tracking system on Google Compute Engine, ingesting global data via websocket and visualizing live ship positions on an interactive dashboard.",
-      "Designed Python Flask API on Cloud Run for large-scale image processing, improving efficiency for long-running tasks.",
-      "Automated image compression with Firebase Extensions, reducing storage costs by 96% and streamlining CI/CD.",
-      "Integrated Microsoft OneDrive Picker API, accelerating client upload workflows by 60% for large image batches.",
-      "Restructured Firestore schema, migrating 4,500+ documents into a scalable data model.",
-      "Deployed region-specific Cloud Storage buckets and Firestore databases (Asia, Europe), cutting latency by 50% in key markets.",
-      "Delivered cross-platform apps in Flutter for maritime clients; launched Android apps on Google Play Store.",
-      "Enhanced app performance with GetX state management and Hive for offline usage.",
-      "Supported backend processes with Cloud Functions and drove documentation improvements to streamline team workflows.",
+      "Google Cloud",
+      "Firebase",
+      "Firestore",
+      "Docker",
+      "Cloud Run",
+      "Cloud Functions",
+      "Compute Engine",
     ],
     logo: "🏢",
   },
   {
-    id: "exp-2",
+    id: "resync-2021",
     company: "Resync",
     position: "Software Engineer Intern",
+    location: "Singapore",
     startDate: new Date("2021-07-01"),
     endDate: new Date("2021-12-28"),
     description:
-      "I drove full-stack development for Resync's core energy management platform, delivering high-performance mobile and web applications for their proprietary dashboard. This work enabled the smart tracking and visualization of energy consumption, providing users with critical data for optimization and cost efficiency.",
-    technologies: ["Flutter", "Python", "Web and Mobile Development", "Figma"],
+      "Drove full-stack development for energy management platform with mobile and web applications",
     achievements: [
-      "Delivered end-to-end Flutter mobile app with push notifications (FCM), used by prominent organizations including the National Environment Agency (NEA)",
-      "Developed Angular web portal and React components, implementing Redux for state management and reducing frontend bugs by 30%",
-      "Containerized backend services with Docker and PostgreSQL, streamlining deployment and reducing setup time by 70%",
-      "Established unit testing framework (Mocha, Chai, Sinon), increasing code coverage to 85% and catching regressions early",
-      "Collaborated in 2-week Agile sprints; introduced GitLab CI linting hooks, improving code quality and commit hygiene",
+      {
+        description:
+          "Delivered a Flutter mobile app with FCM push notifications adopted by the National Environment Agency (NEA)",
+        impact: "Used by prominent organizations for energy management",
+      },
+      {
+        description: "Built Angular portal and React components with Redux",
+        impact: "Reducing frontend bugs by 30%",
+        metrics: "30% bug reduction",
+      },
+      {
+        description: "Containerized backend with Docker and PostgreSQL",
+        impact: "Cutting setup time by 70%",
+        metrics: "70% setup time reduction",
+      },
+      {
+        description: "Established unit testing framework (Mocha, Chai, Sinon)",
+        impact: "Raising coverage to 85%",
+        metrics: "85% test coverage",
+      },
+    ],
+    technologies: [
+      "Flutter",
+      "Angular",
+      "React",
+      "Redux",
+      "Docker",
+      "PostgreSQL",
+      "Python",
+      "Mocha",
+      "Chai",
+      "Sinon",
+      "GitLab CI",
     ],
     logo: "💡",
   },
@@ -52,16 +102,18 @@ export const EXPERIENCE_DATA: Experience[] = [
 
 export const EDUCATION_DATA: Education[] = [
   {
-    id: "edu-1",
+    id: "ntu-2019",
     institution: "Nanyang Technological University",
-    degree: "Bachelor of Engineering in Computer Science",
+    degree:
+      "B.Eng. Computer Science with Highest Distinction (First Class Honours)",
+    location: "Singapore",
     startDate: new Date("2019-08-01"),
     endDate: new Date("2023-06-30"),
     description:
-      "B.Eng. Computer Science with Highest Distinction (First Class Honours)",
+      "Bachelor of Engineering in Computer Science with First Class Honours",
     achievements: [
       "Specialisations: Artificial Intelligence, Data Science & Analytics",
-      "Was offered the EDB-IPP PhD scholarship",
+      "EDB-IPP PhD Scholarship (Offered, Declined)",
     ],
     logo: "🎓",
   },

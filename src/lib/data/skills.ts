@@ -1,139 +1,247 @@
-import { Skill } from "@/types";
+import { TechnicalSkills } from "@/types";
 
-export const SKILLS_DATA: Skill[] = [
-  // Frontend Skills
-  {
-    name: "React",
-    category: "frontend",
-    level: 3,
-    icon: "⚛️",
+export const TECHNICAL_SKILLS: TechnicalSkills = {
+  languages: {
+    name: "Programming Languages",
+    items: [
+      {
+        name: "Dart",
+        proficiency: 5,
+        yearsOfExperience: 2.5,
+        category: "mobile",
+        icon: "🎯",
+      },
+      {
+        name: "Python",
+        proficiency: 5,
+        yearsOfExperience: 3,
+        category: "backend",
+        icon: "🐍",
+      },
+      {
+        name: "JavaScript/TypeScript",
+        proficiency: 4,
+        yearsOfExperience: 2.5,
+        category: "frontend",
+        icon: "📘",
+      },
+      {
+        name: "Java",
+        proficiency: 4,
+        yearsOfExperience: 2,
+        category: "backend",
+        icon: "☕",
+      },
+      {
+        name: "C/C++",
+        proficiency: 3,
+        yearsOfExperience: 1,
+        category: "systems",
+        icon: "⚡",
+      },
+      {
+        name: "SQL",
+        proficiency: 4,
+        yearsOfExperience: 2.5,
+        category: "database",
+        icon: "🗃️",
+      },
+    ],
   },
-  {
-    name: "Next.js",
-    category: "frontend",
-    level: 3,
-    icon: "▲",
+  frameworks: {
+    name: "Frameworks & Libraries",
+    items: [
+      {
+        name: "Flutter",
+        proficiency: 5,
+        yearsOfExperience: 2.5,
+        category: "mobile",
+        icon: "📱",
+      },
+      {
+        name: "React",
+        proficiency: 4,
+        yearsOfExperience: 2,
+        category: "frontend",
+        icon: "⚛️",
+      },
+      {
+        name: "Angular",
+        proficiency: 3,
+        yearsOfExperience: 1,
+        category: "frontend",
+        icon: "🅰️",
+      },
+      {
+        name: "Node.js",
+        proficiency: 4,
+        yearsOfExperience: 2,
+        category: "backend",
+        icon: "🟢",
+      },
+      {
+        name: "Flask",
+        proficiency: 4,
+        yearsOfExperience: 2,
+        category: "backend",
+        icon: "🌶️",
+      },
+      {
+        name: "Django",
+        proficiency: 3,
+        yearsOfExperience: 1,
+        category: "backend",
+        icon: "🎸",
+      },
+    ],
   },
-  {
-    name: "TypeScript",
-    category: "frontend",
-    level: 3,
-    icon: "📘",
+  cloudInfra: {
+    name: "Cloud & Infrastructure",
+    items: [
+      {
+        name: "Google Cloud Platform",
+        proficiency: 5,
+        yearsOfExperience: 2.5,
+        category: "cloud",
+        icon: "☁️",
+      },
+      {
+        name: "Cloud Run",
+        proficiency: 5,
+        yearsOfExperience: 1.5,
+        category: "cloud",
+        icon: "🏃",
+      },
+      {
+        name: "Cloud Functions",
+        proficiency: 4,
+        yearsOfExperience: 1.5,
+        category: "cloud",
+        icon: "⚡",
+      },
+      {
+        name: "Compute Engine",
+        proficiency: 4,
+        yearsOfExperience: 1,
+        category: "cloud",
+        icon: "🖥️",
+      },
+      {
+        name: "Firebase",
+        proficiency: 5,
+        yearsOfExperience: 2.5,
+        category: "cloud",
+        icon: "🔥",
+      },
+      {
+        name: "Firestore",
+        proficiency: 5,
+        yearsOfExperience: 2.5,
+        category: "database",
+        icon: "🗄️",
+      },
+      {
+        name: "Docker",
+        proficiency: 4,
+        yearsOfExperience: 2,
+        category: "devops",
+        icon: "🐳",
+      },
+      {
+        name: "GitLab CI",
+        proficiency: 3,
+        yearsOfExperience: 1,
+        category: "devops",
+        icon: "🦊",
+      },
+    ],
   },
-  {
-    name: "JavaScript",
-    category: "frontend",
-    level: 3,
-    icon: "🟨",
+  databases: {
+    name: "Databases",
+    items: [
+      {
+        name: "PostgreSQL",
+        proficiency: 4,
+        yearsOfExperience: 2,
+        category: "database",
+        icon: "🐘",
+      },
+      {
+        name: "MySQL",
+        proficiency: 3,
+        yearsOfExperience: 1.5,
+        category: "database",
+        icon: "🐬",
+      },
+      {
+        name: "Hive (local DB)",
+        proficiency: 4,
+        yearsOfExperience: 1.5,
+        category: "database",
+        icon: "🍯",
+      },
+    ],
   },
-  {
-    name: "HTML5",
-    category: "frontend",
-    level: 3,
-    icon: "🌐",
+  tools: {
+    name: "Tools & Technologies",
+    items: [
+      {
+        name: "Git",
+        proficiency: 5,
+        yearsOfExperience: 3,
+        category: "devops",
+        icon: "📝",
+      },
+      {
+        name: "Figma",
+        proficiency: 4,
+        yearsOfExperience: 2,
+        category: "design",
+        icon: "🎨",
+      },
+      {
+        name: "GetX",
+        proficiency: 5,
+        yearsOfExperience: 2,
+        category: "mobile",
+        icon: "🎯",
+      },
+      {
+        name: "Agile/Scrum",
+        proficiency: 4,
+        yearsOfExperience: 2.5,
+        category: "methodology",
+        icon: "🔄",
+      },
+    ],
   },
-  {
-    name: "CSS3",
-    category: "frontend",
-    level: 3,
-    icon: "🎨",
-  },
-  {
-    name: "Tailwind CSS",
-    category: "frontend",
-    level: 3,
-    icon: "💨",
-  },
-  {
-    name: "Vue.js",
-    category: "frontend",
-    level: 3,
-    icon: "💚",
-  },
+};
 
-  // Backend Skills
-  {
-    name: "Node.js",
-    category: "backend",
-    level: 3,
-    icon: "🟢",
-  },
-  {
-    name: "Python",
-    category: "backend",
-    level: 5,
-    icon: "🐍",
-  },
-  {
-    name: "Express.js",
-    category: "backend",
-    level: 3,
-    icon: "🚂",
-  },
-  {
-    name: "PostgreSQL",
-    category: "backend",
-    level: 3,
-    icon: "🐘",
-  },
-  {
-    name: "MongoDB",
-    category: "backend",
-    level: 3,
-    icon: "🍃",
-  },
-  {
-    name: "REST APIs",
-    category: "backend",
-    level: 5,
-    icon: "🔌",
-  },
-
-  // Tools
-  {
-    name: "Git",
-    category: "tools",
-    level: 5,
-    icon: "📝",
-  },
-  {
-    name: "Docker",
-    category: "tools",
-    level: 3,
-    icon: "🐳",
-  },
-  {
-    name: "Jest",
-    category: "tools",
-    level: 3,
-    icon: "🃏",
-  },
-
-  // Design
-  {
-    name: "Figma",
-    category: "design",
-    level: 4,
-    icon: "🎨",
-  },
-  {
-    name: "UI/UX Design",
-    category: "design",
-    level: 5,
-    icon: "✨",
-  },
-  {
-    name: "Responsive Design",
-    category: "design",
-    level: 5,
-    icon: "📱",
-  },
-];
-
-export const getSkillsByCategory = (category: Skill["category"]) => {
-  return SKILLS_DATA.filter((skill) => skill.category === category);
+// Utility functions for skills data
+export const getSkillsByCategory = (categoryName: string) => {
+  const categories = Object.values(TECHNICAL_SKILLS);
+  const category = categories.find((cat) => cat.name === categoryName);
+  return category ? category.items : [];
 };
 
 export const getAllSkillCategories = () => {
-  return Array.from(new Set(SKILLS_DATA.map((skill) => skill.category)));
+  return Object.values(TECHNICAL_SKILLS).map((category) => category.name);
 };
+
+export const getHighProficiencySkills = (minProficiency: number = 4) => {
+  const allSkills = Object.values(TECHNICAL_SKILLS).flatMap(
+    (category) => category.items
+  );
+  return allSkills.filter((skill) => skill.proficiency >= minProficiency);
+};
+
+export const getSkillsByProficiency = (proficiency: number) => {
+  const allSkills = Object.values(TECHNICAL_SKILLS).flatMap(
+    (category) => category.items
+  );
+  return allSkills.filter((skill) => skill.proficiency === proficiency);
+};
+// Backward compatibility export - flattened skills array
+export const SKILLS_DATA = Object.values(TECHNICAL_SKILLS).flatMap(
+  (category) => category.items
+);
