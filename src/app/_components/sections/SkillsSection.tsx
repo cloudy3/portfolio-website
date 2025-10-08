@@ -2,34 +2,50 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Skill } from "@/types";
-import { SKILLS_DATA, getSkillsByCategory } from "@/lib/data/skills";
+import { SKILLS_DATA } from "@/lib/data/skills";
 
 interface SkillCardProps {
   skill: Skill;
   index: number;
+  activeCategory: string;
 }
 
-const SkillCard = ({ skill, index }: SkillCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+const SkillCard = ({ skill, index, activeCategory }: SkillCardProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [progressWidth, setProgressWidth] = useState(0);
+  const [progressOpacity, setProgressOpacity] = useState(0);
+  const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
+    // Force complete reset by incrementing animation key
+    setAnimationKey((prev) => prev + 1);
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
+    // Reset all animation states
+    setIsVisible(false);
+    setProgressWidth(0);
+    setProgressOpacity(0);
 
-    return () => observer.disconnect();
-  }, [isVisible]);
+    // Start animations with proper timing
+    const cardTimer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100 + index * 100);
+
+    // Progress bar animation (starts after card is visible)
+    const progressTimer = setTimeout(() => {
+      setProgressOpacity(1);
+
+      // Small delay to ensure opacity is set before width animation
+      setTimeout(() => {
+        const targetWidth = (skill.proficiency / 5) * 100;
+        setProgressWidth(targetWidth);
+      }, 100);
+    }, 100 + index * 100 + 400);
+
+    return () => {
+      clearTimeout(cardTimer);
+      clearTimeout(progressTimer);
+    };
+  }, [index, activeCategory, skill.proficiency, skill.name]);
 
   const getLevelText = (level: number) => {
     switch (level) {
@@ -50,11 +66,10 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
 
   return (
     <div
-      ref={cardRef}
       className={`skill-card bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      style={{ transitionDelay: `${100 + index * 100}ms` }}
     >
       <div className="flex items-center mb-4">
         <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-2xl mr-4">
@@ -63,7 +78,7 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
         <div>
           <h3 className="card-title text-gray-900">{skill.name}</h3>
           <p className="card-description text-gray-600">
-            {getLevelText(skill.level)}
+            {getLevelText(skill.proficiency)}
           </p>
         </div>
       </div>
@@ -71,17 +86,21 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
       <div className="mb-2">
         <div className="flex justify-between text-sm text-gray-600 mb-1">
           <span>Proficiency</span>
-          <span>{skill.level}/5</span>
+          <span>{skill.proficiency}/5</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            ref={progressRef}
-            className={`bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-1000 ease-out ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
+            key={`progress-${skill.name}-${activeCategory}-${animationKey}`}
+            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
             style={{
-              width: isVisible ? `${(skill.level / 5) * 100}%` : "0%",
-              transitionDelay: `${index * 100 + 200}ms`,
+              width: `${progressWidth}%`,
+              opacity: progressOpacity,
+              transition:
+                progressOpacity === 0
+                  ? "none"
+                  : "width 1000ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease-out",
+              willChange: "width, opacity",
+              transformOrigin: "left center",
             }}
           />
         </div>
@@ -93,13 +112,23 @@ const SkillCard = ({ skill, index }: SkillCardProps) => {
 interface SkillCategoryProps {
   category: Skill["category"];
   skills: Skill[];
+  activeCategory: string;
+  categoryChangeKey: number;
 }
 
-const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
+const SkillCategory = ({
+  category,
+  skills,
+  activeCategory,
+  categoryChangeKey,
+}: SkillCategoryProps) => {
   const categoryRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Reset visibility when category changes
+    setIsVisible(false);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -114,7 +143,7 @@ const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [activeCategory]); // Reset when activeCategory changes
 
   const getCategoryTitle = (category: Skill["category"]) => {
     switch (category) {
@@ -122,10 +151,20 @@ const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
         return "Frontend Development";
       case "backend":
         return "Backend Development";
-      case "tools":
-        return "Tools & Technologies";
+      case "mobile":
+        return "Mobile Development";
+      case "devops":
+        return "DevOps & Tools";
       case "design":
         return "Design & UX";
+      case "database":
+        return "Database";
+      case "cloud":
+        return "Cloud & Infrastructure";
+      case "systems":
+        return "Systems Programming";
+      case "methodology":
+        return "Methodology";
       case "other":
         return "Other Skills";
       default:
@@ -142,10 +181,20 @@ const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
         return "🎨";
       case "backend":
         return "⚙️";
-      case "tools":
+      case "mobile":
+        return "📱";
+      case "devops":
         return "🛠️";
       case "design":
         return "✨";
+      case "database":
+        return "🗄️";
+      case "cloud":
+        return "☁️";
+      case "systems":
+        return "⚡";
+      case "methodology":
+        return "🔄";
       case "other":
         return "🚀";
       default:
@@ -166,7 +215,12 @@ const SkillCategory = ({ category, skills }: SkillCategoryProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {skills.map((skill, index) => (
-          <SkillCard key={skill.name} skill={skill} index={index} />
+          <SkillCard
+            key={`${skill.name}-${activeCategory}-${categoryChangeKey}-${index}`}
+            skill={skill}
+            index={index}
+            activeCategory={activeCategory}
+          />
         ))}
       </div>
     </div>
@@ -179,6 +233,7 @@ const SkillsSection = () => {
     Skill["category"] | "all"
   >("all");
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const [categoryChangeKey, setCategoryChangeKey] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -201,7 +256,8 @@ const SkillsSection = () => {
     "all",
     "frontend",
     "backend",
-    "tools",
+    "mobile",
+    "devops",
     "design",
   ];
 
@@ -209,7 +265,8 @@ const SkillsSection = () => {
     if (activeCategory === "all") {
       return SKILLS_DATA;
     }
-    return getSkillsByCategory(activeCategory);
+    // Filter skills by their category property
+    return SKILLS_DATA.filter((skill) => skill.category === activeCategory);
   };
 
   const getSkillsByCategories = () => {
@@ -225,7 +282,7 @@ const SkillsSection = () => {
     return actualCategories
       .map((category) => ({
         category: category,
-        skills: getSkillsByCategory(category),
+        skills: SKILLS_DATA.filter((skill) => skill.category === category),
       }))
       .filter((group) => group.skills.length > 0);
   };
@@ -266,7 +323,10 @@ const SkillsSection = () => {
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => {
+                setActiveCategory(category);
+                setCategoryChangeKey((prev) => prev + 1);
+              }}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                 activeCategory === category
                   ? "bg-blue-600 text-white shadow-lg transform scale-105"
@@ -275,15 +335,23 @@ const SkillsSection = () => {
             >
               {category === "all"
                 ? "All Skills"
+                : category === "devops"
+                ? "DevOps"
                 : category.charAt(0).toUpperCase() + category.slice(1)}
             </button>
           ))}
         </div>
 
         {/* Skills Display */}
-        <div className="max-w-7xl mx-auto">
+        <div key={activeCategory} className="max-w-7xl mx-auto">
           {getSkillsByCategories().map(({ category, skills }) => (
-            <SkillCategory key={category} category={category} skills={skills} />
+            <SkillCategory
+              key={`${category}-${activeCategory}-${categoryChangeKey}`}
+              category={category}
+              skills={skills}
+              activeCategory={activeCategory}
+              categoryChangeKey={categoryChangeKey}
+            />
           ))}
         </div>
 
@@ -305,13 +373,13 @@ const SkillsSection = () => {
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
-                  {SKILLS_DATA.filter((s) => s.level >= 4).length}
+                  {SKILLS_DATA.filter((s) => s.proficiency >= 4).length}
                 </div>
                 <div className="text-sm text-gray-600">Advanced Skills</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-purple-600 mb-2">
-                  {SKILLS_DATA.filter((s) => s.level === 5).length}
+                  {SKILLS_DATA.filter((s) => s.proficiency === 5).length}
                 </div>
                 <div className="text-sm text-gray-600">Expert Level</div>
               </div>
