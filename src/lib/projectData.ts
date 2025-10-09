@@ -3,6 +3,27 @@ import { Project } from "@/types";
 // Jing Feng's real project data reflecting professional experience and technology stack
 export const sampleProjects: Project[] = [
   {
+    id: "image-processing-api",
+    title: "Cloud-Native Image Processing API",
+    description:
+      "Python Flask API deployed on Google Cloud Run for large-scale image processing with automated compression.",
+    longDescription:
+      "Designed and implemented a Python Flask API deployed on Google Cloud Run for large-scale image processing operations. The system includes automated image compression using Firebase Extensions, resulting in 96% reduction in storage costs. Integrated with Microsoft OneDrive Picker API to accelerate client upload workflows by 60% for large image batches. The API handles long-running tasks efficiently and includes comprehensive error handling and monitoring. Successfully streamlined CI/CD processes and improved overall system performance.",
+    technologies: [
+      "Python",
+      "Flask",
+      "Google Cloud Run",
+      "Firebase Extensions",
+      "Cloud Storage",
+      "OneDrive API",
+      "Docker",
+    ],
+    category: "web",
+    images: ["/projects/dms-web-1.png", "/projects/dms-web-2.png"],
+    featured: false,
+    completedAt: new Date("2023-10-10"),
+  },
+  {
     id: "diving-application",
     title: "Diving Application for Maritime Services",
     description:
@@ -20,11 +41,7 @@ export const sampleProjects: Project[] = [
       "Cloud Functions",
     ],
     category: "mobile",
-    images: [
-      "/projects/diving-app-1.svg",
-      "/projects/diving-app-2.svg",
-      "/projects/diving-app-3.svg",
-    ],
+    images: ["/projects/diving-app-1.png"],
     featured: true,
     completedAt: new Date("2024-01-15"),
   },
@@ -46,8 +63,8 @@ export const sampleProjects: Project[] = [
     ],
     category: "web",
     images: [
-      "/projects/vessel-tracking-1.svg",
-      "/projects/vessel-tracking-2.svg",
+      "/projects/vessel-tracking-1.png",
+      "/projects/vessel-tracking-2.png",
     ],
     featured: true,
     completedAt: new Date("2023-12-20"),
@@ -90,32 +107,11 @@ export const sampleProjects: Project[] = [
       "AI Assistance",
     ],
     category: "web",
-    images: ["/projects/portfolio-1.svg", "/projects/portfolio-2.svg"],
+    images: ["/projects/portfolio-1.png"],
     liveUrl: "https://portfolio.jingfeng.dev",
     githubUrl: "https://github.com/jingfeng/portfolio-website",
     featured: true,
     completedAt: new Date("2024-02-28"),
-  },
-  {
-    id: "image-processing-api",
-    title: "Cloud-Native Image Processing API",
-    description:
-      "Python Flask API deployed on Google Cloud Run for large-scale image processing with automated compression.",
-    longDescription:
-      "Designed and implemented a Python Flask API deployed on Google Cloud Run for large-scale image processing operations. The system includes automated image compression using Firebase Extensions, resulting in 96% reduction in storage costs. Integrated with Microsoft OneDrive Picker API to accelerate client upload workflows by 60% for large image batches. The API handles long-running tasks efficiently and includes comprehensive error handling and monitoring. Successfully streamlined CI/CD processes and improved overall system performance.",
-    technologies: [
-      "Python",
-      "Flask",
-      "Google Cloud Run",
-      "Firebase Extensions",
-      "Cloud Storage",
-      "OneDrive API",
-      "Docker",
-    ],
-    category: "web",
-    images: ["/projects/image-api-1.svg", "/projects/image-api-2.svg"],
-    featured: false,
-    completedAt: new Date("2023-10-10"),
   },
 ];
 
